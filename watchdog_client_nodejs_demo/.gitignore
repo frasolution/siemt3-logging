@@ -117,3 +117,6 @@ dist
 
 # log files
 *.log
+
+#settings
+settings.json

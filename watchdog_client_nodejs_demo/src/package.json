@@ -1,5 +1,5 @@
 {
-  "name": "logger",
+  "name": "watchdog_logger",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "journalctl": "^1.1.0",
     "tailing-stream": "^0.2.0"
   }
 }

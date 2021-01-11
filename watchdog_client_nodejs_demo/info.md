@@ -10,7 +10,7 @@ creates new lines in 'log.log' with a delay
 We can use this file to emulate some program that creates logs
 
 ### index.js
-this program get updates from log.log and makes an (axios) http post request to localhost 3000
+this program get updates from log.log and makes an (axios) http post request to localhost 8080
 
 This file requires packages
 - axios

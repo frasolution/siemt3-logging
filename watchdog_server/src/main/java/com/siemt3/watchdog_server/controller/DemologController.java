@@ -20,7 +20,7 @@ public class DemologController {
 //    @Autowired
 //    private MyUserDetailsService userDetailsService;
 
-    @RequestMapping(value = "/api/v1/demolog", method =  RequestMethod.GET)
+    @RequestMapping(value = "/api/v1/demolog", method =  RequestMethod.POST)
     public ResponseEntity<?> echoDemoString(@RequestBody DemoLogRequest demoLogRequest) throws Exception{
         String log;
         try{
