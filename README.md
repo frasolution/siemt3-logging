@@ -3,9 +3,6 @@
 ## watchdog_client_nodejs_demo
 this is a sample implementation for a log file reading program that sends an http post request with the a new log file line
   
-## watchdog_concept_nodejs
-this is the original cencept for watchdog
-  
 ## watchdog_server
 ATTENTION! Server runs on Port 8080 at the moment
 this is a springboot based http rest api server made to handle the requests from watchdog client.  
