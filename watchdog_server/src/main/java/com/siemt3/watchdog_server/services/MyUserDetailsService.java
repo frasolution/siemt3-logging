@@ -13,6 +13,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        //TODO implement non hardcoded credentials
         return new User("AzureDiamond", "hunter2",
                 new ArrayList<>());
     }
