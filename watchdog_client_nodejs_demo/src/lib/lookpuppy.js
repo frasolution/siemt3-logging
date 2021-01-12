@@ -1,7 +1,25 @@
+/*++
+Project Name:
+watchdog_client
+
+Author:
+Maximilian M (Meshstyles)
+
+Description:
+module that handles making requests to the watchdog api log server 
+and related functions
+
+--*/
 const { default: axios } = require("axios");
 const Singleton = require("./client_manager");
 const { urlBuilder } = require("./url");
 
+
+/**
+ * Summary. send the premade object to specified endpoint
+ * @function
+ * @param {object} message a object with log array/object and logtype
+ */
 async function push(message) {
     let { logtype, logobject } = await message;
     let { jwt } = await ( await Singleton.getInstance() ).jwtoken;
@@ -11,23 +29,28 @@ async function push(message) {
     };
 
     let url = await urlBuilder(logtype);
-    // console.log(url);
-    // console.log(logobject);
-    // console.log(config);
-
-    // let res = await axios.post( 
-    //     url,
-    //     await logobject,
-    //     config
-    // ).then(console.log).catch(console.log);
     
-    let res = await axios.post(url, logobject, config);
+    let res = await axios.post(url, logobject, config).catch(console.log);
+
+    // DO NOT REMOVE --DEV
     console.log(await res.data);
     return res.data;
 }
 
+/**
+ * 
+ * Summary. Function to send an ssh log.
+ * Description. This function is used as an abstraction between the component that actually sends logs
+ * 
+ * @function
+ * 
+ * @param {object} log[] array of logs
+ * 
+ * @returns void
+ */
+
 async function sshlog(log) {
-    log = log.replace("\\n","")
+    // use combined object to with logtype("endpoint") and the actual log "object"
     let message = { logtype: "demolog", logobject: { sus: log } }
     push(message);
 }

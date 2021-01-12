@@ -7,5 +7,7 @@ this is a sample implementation for a log file reading program that sends an htt
 this is the original cencept for watchdog
   
 ## watchdog_server
+ATTENTION! Server runs on Port 8080 at the moment
 this is a springboot based http rest api server made to handle the requests from watchdog client.  
 This was created with the help of spring initializr
+to start backend run main in watchdog_server/src/main/java/com/siemt3/WatchdogServerApplication.java
