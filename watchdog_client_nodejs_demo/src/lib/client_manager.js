@@ -1,3 +1,4 @@
+
 /*++
 Project Name:
 watchdog_client
@@ -27,6 +28,7 @@ class Singleton {
         if (!Singleton.instance) {
             Singleton.instance = new PrivateSingleton();
         }
+        // look up if the jwt should still be valid
         if (! (await auth_module.isValidJwt(Singleton.instance.jwtoken)) ) {
                 Singleton.instance.jwtoken = await auth_module.login();
         }

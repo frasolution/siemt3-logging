@@ -1,3 +1,16 @@
+
+/*++
+Project Name:
+watchdog_client
+
+Author:
+Maximilian M (Meshstyles)
+
+Description:
+main program, actually working with the log
+
+--*/
+
 const TailingReadableStream = require('tailing-stream');
 const { sshlog } = require('./lib/lookpuppy');
 

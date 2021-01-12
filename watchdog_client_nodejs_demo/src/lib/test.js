@@ -1,3 +1,16 @@
+
+/*++
+Project Name:
+watchdog_client
+
+Author:
+Maximilian M (Meshstyles)
+
+Description:
+this is for manual testing
+
+--*/
+
 const urlBuilder = require("./url");
 const auth_module = require("./auth");
 const Singleton = require("./client_manager");

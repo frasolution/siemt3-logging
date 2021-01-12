@@ -1,3 +1,4 @@
+
 /*++
 Project Name:
 watchdog_client
@@ -9,6 +10,7 @@ Description:
 module that handels authentication requests and related functions
 
 --*/
+
 const { default: axios } = require("axios");
 const settings = require("../settings/settings.json");
 const { urlBuilder } = require("./url");

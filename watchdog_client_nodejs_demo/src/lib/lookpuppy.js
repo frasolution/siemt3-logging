@@ -10,6 +10,7 @@ module that handles making requests to the watchdog api log server
 and related functions
 
 --*/
+
 const { default: axios } = require("axios");
 const Singleton = require("./client_manager");
 const { urlBuilder } = require("./url");
