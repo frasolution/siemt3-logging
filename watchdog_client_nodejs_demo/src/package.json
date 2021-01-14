@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "journalctl": "^1.1.0",
     "tailing-stream": "^0.2.0"
   }
 }
