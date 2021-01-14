@@ -5,4 +5,5 @@ sudo apt upgrade
 sudo apt install nodejs
 sudo apt install npm
 #installing required npm packages
-npm i 
+npm i axios
+npm i tailing-stream
