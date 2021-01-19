@@ -32,10 +32,12 @@ sshStream.on('data', buffer => {
         args.forEach(elog => {
             
             // check if there is a empty line in the log
-            if (! (elog === "")) {
-                
-                // send log to matching method in lib/lookpuppy
-                sshlog(elog)
+            if (!(elog === "")) {
+                // added filter to not send sshd unrealted messages
+                if (elog.contains("sshd[")) {
+                    // send log to matching method in lib/lookpuppy
+                    sshlog(elog)   
+                }
             } 
         });
     }
