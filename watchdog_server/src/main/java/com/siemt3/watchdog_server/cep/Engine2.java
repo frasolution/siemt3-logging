@@ -16,14 +16,14 @@ import com.siemt3.watchdog_server.cep.event.GudeEvent;
 import com.siemt3.watchdog_server.controller.DemologController;
 
 
-public class Engine {
+public class Engine2 {
 
     public static void main() {
         System.out.println("lol");
-        new Engine();
+        new Engine2();
     }
 
-    public Engine(){
+    public Engine2(){
         // log4j initialization
         org.apache.log4j.BasicConfigurator.configure();
         Configuration cfg = new Configuration();
@@ -31,7 +31,6 @@ public class Engine {
         cfg.getCommon().addEventType(GudeEvent.class);
 
         EPRuntime runtime = EPRuntimeProvider.getDefaultRuntime(cfg);
-        DemologController.setEventService(runtime.getEventService(), runtime);
     }
 
 

@@ -15,5 +15,4 @@ public class Bootstrap {
         epService.sendEventBean(new GudeEvent("test"), "GudeEvent");
     }
 
-
 }
