@@ -30,7 +30,6 @@ sshStream.on('data', buffer => {
 
         // for each log
         args.forEach(elog => {
-            
             // check if there is a empty line in the log
             if (!(elog === "")) {
                 // added filter to not send sshd unrealted messages
