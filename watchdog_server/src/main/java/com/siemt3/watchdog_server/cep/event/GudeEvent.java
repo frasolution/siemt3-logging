@@ -1,5 +1,6 @@
 package com.siemt3.watchdog_server.cep.event;
 
+// event object for elevated demolog event "containing gude substring"
 public class GudeEvent {
 
     public String gude;

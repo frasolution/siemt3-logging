@@ -1,5 +1,15 @@
 package com.siemt3.watchdog_server;
+/*++
+Project Name:
+watchdog_server
 
+Author:
+Maximilian Medlin (Meshstyles)
+
+Description:
+"bootstrap" method main does start our entire project
+
+--*/
 import com.siemt3.watchdog_server.cep.Engine;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

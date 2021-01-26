@@ -1,5 +1,19 @@
 package com.siemt3.watchdog_server.cep;
+/*++
+Project Name:
+watchdog_server
 
+Author:
+Maximilian Medlin (Meshstyles)
+
+Description:
+Esper Engine implementation code
+- the engine gets started with main and creates a new thread. Please call main only once with "bootstrap"
+- actual code is in method perform
+- currently contains proof of concept code
+
+
+--*/
 import com.espertech.esper.common.client.EPCompiled;
 import com.espertech.esper.common.client.configuration.Configuration;
 import com.espertech.esper.compiler.client.CompilerArguments;
@@ -43,6 +57,7 @@ public class Engine implements Runnable{
         CompilerArguments compilerArguments = new CompilerArguments(config);
         EPCompiler compiler = EPCompilerProvider.getCompiler();
 
+        // event when demolog does contain "gude" as substring
         EPCompiled gudeCompiled;
         try {
             gudeCompiled = compiler.compile(
@@ -67,7 +82,7 @@ public class Engine implements Runnable{
             System.out.println(String.format("GudeEvent with msg: %s", message));
         });
 
-        // add sshlog statement and compile
+        // add demolog statement and compile
         EPCompiled demoLogCompiled;
         try {
             demoLogCompiled = compiler.compile("@name('demolog-statement') select sus from DemoLogEvent", compilerArguments);
@@ -93,6 +108,31 @@ public class Engine implements Runnable{
             System.out.println(message);
         });
 
-    }
+        // test implementation SSH
+        // add sshlog statement and compile
+        EPCompiled sshLogCompiled;
+        try {
+            sshLogCompiled = compiler.compile("@name('sshlog-statement') select log as message from SSHLogEvent", compilerArguments);
+        }
+        catch (EPCompileException ex) {
+            // handle exception here
+            throw new RuntimeException(ex);
+        }
+
+        EPDeployment sshLogDeployment;
+        try {
+            sshLogDeployment = runtime.getDeploymentService().deploy(sshLogCompiled);
+        }
+        catch (EPDeployException ex) {
+            // handle exception here
+            throw new RuntimeException(ex);
+        }
+        EPStatement sshLogStatement = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(), "sshlog-statement");
+        sshLogStatement.addListener( (newData, oldData, statementx, runtimex) -> {
+            String message = (String) newData[0].get("message");
+            System.out.println(message);
+        });
+
+        }
 
 }
