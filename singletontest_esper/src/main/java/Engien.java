@@ -7,11 +7,8 @@ import com.espertech.esper.compiler.client.EPCompilerProvider;
 import com.espertech.esper.runtime.client.EPDeployException;
 import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
-import com.espertech.esper.runtime.client.EPRuntimeProvider;
 
 public class Engien implements Runnable{
-
-    private final String runtimeURI = "globalRuntime";
 
     public Engien() {
     }
@@ -35,8 +32,7 @@ public class Engien implements Runnable{
     }
 
     private void perform () throws EPCompileException, EPDeployException{
-        Configuration config = new Configuration();
-        config.getCommon().addEventType(GudeEvent.class);
+        Configuration config = PEM.getInstance().config;
 
         EPCompiler compiler = EPCompilerProvider.getCompiler();
         CompilerArguments compilerArguments = new CompilerArguments(config);
@@ -49,7 +45,7 @@ public class Engien implements Runnable{
             throw new RuntimeException(ex);
         }
 
-        EPRuntime runtime = EPRuntimeProvider.getRuntime(runtimeURI, config);
+        EPRuntime runtime = PEM.getInstance().runtime;
 
         EPDeployment deployed = runtime.getDeploymentService().deploy(gudeCompiled);
         deployed.getStatements()[0].addListener((newData, oldData, statement, runtimex) -> {

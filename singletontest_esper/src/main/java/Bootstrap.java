@@ -6,10 +6,11 @@ import com.espertech.esper.runtime.client.EPRuntimeProvider;
 public class Bootstrap {
     public static void main(String[] args) throws Exception {
         Engien.main();
-        Configuration config = new Configuration();
-        config.getCommon().addEventType(GudeEvent.class);
-        String runtimeURI = "globalRuntime";
-        EPRuntime runtime = EPRuntimeProvider.getRuntime(runtimeURI, config);
+//        Configuration config = new Configuration();
+//        config.getCommon().addEventType(GudeEvent.class);
+//        String runtimeURI = "globalRuntime";
+//        EPRuntime runtime = EPRuntimeProvider.getRuntime(runtimeURI, config);
+        EPRuntime runtime = PEM.getInstance().runtime;
 
         EPEventService epService = runtime.getEventService();
         epService.sendEventBean(new GudeEvent("test"), "GudeEvent");
