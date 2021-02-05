@@ -1,0 +1,4 @@
+#Created by Apache Maven 3.6.3
+groupId=org.bob
+artifactId=SIEM_CEP
+version=1.0-SNAPSHOT
