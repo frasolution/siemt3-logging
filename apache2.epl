@@ -1,0 +1,6 @@
+module org.bob.apache2;
+
+@name('apache2-log-400-message') insert into Apache2FailedLogMessage select message from Apache2LogMessage where message like '%400%';
+
+@name('apache2-400-alert') insert into Apache2Alert select count(*) from Apache2FailedLogMessage having count(*) >= 5;
+
