@@ -24,6 +24,7 @@ import com.espertech.esper.runtime.client.EPDeployException;
 import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
+import com.espertech.esper.common.client.hook.singlerowfunc.ExtensionSingleRowFunction;
 import org.codehaus.janino.Compiler;
 
 public class Engine implements Runnable{
@@ -61,7 +62,19 @@ public class Engine implements Runnable{
         EPCompiled gudeCompiled;
         try {
             gudeCompiled = compiler.compile(
-                    "@name('gude-event') insert into GudeEvent select sus from DemoLogEvent where sus like '%gude%'",
+                    //the insert is not required!!!
+                    //actually causes compiler error
+                    "@name('gude-event') inlined_class \"\"\" \n" +
+                            "import com.espertech.esper.common.client.hook.singlerowfunc.*;"+
+                            "  @ExtensionSingleRowFunction(name=\"computePercent\", methodName=\"computePercent\")\n" +
+                            "  public class MyUtilityClass {\n" +
+                            "    public static String computePercent(String s) {\n" +
+                            "       System.out.println(s);"+
+                            "       return \"gude\";"+
+                            "    }\n" +
+                            "  }\n" +
+                            "\"\"\" "+
+                            "select computePercent(sus) as gude from DemoLogEvent",
                     compilerArguments);
         } catch (EPCompileException ex) {
             throw new RuntimeException(ex);
