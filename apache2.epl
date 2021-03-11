@@ -1,6 +1,34 @@
 module org.bob.apache2;
 
-@name('apache2-log-400-message') insert into Apache2FailedLogMessage select message from Apache2LogMessage where message like '%400%';
 
-@name('apache2-400-alert') insert into Apache2Alert select count(*) from Apache2FailedLogMessage having count(*) >= 5;
+//variable 404 threshold
+create variable long var_threshold_404 = 5;
+create variable int var_sec_404 = 30;
 
+
+//basic 404 event
+create schema log404(what string, log string);
+@name('apache2-log-404') 
+insert into log404 
+select "log" as what, message as log 
+from Apache2LogMessage 
+where message like '%status":"404%';
+
+
+//basic 404 alert
+create schema alert404_basic(what string, log string);
+@name('apache2-alert-404-basic') 
+insert into alert404_basic 
+select "basic" as what, log 
+from log404
+group by what 
+having count(*) >= var_threshold_404;
+
+
+//time window alert 404
+create schema alert404_time(what string, log string);
+@name('apache2-alert-404-time')
+insert into alert404_time
+select "alert" as what, log as log
+from log404#time(var_sec_404 sec)
+having count(*) >= var_threshold_404;
