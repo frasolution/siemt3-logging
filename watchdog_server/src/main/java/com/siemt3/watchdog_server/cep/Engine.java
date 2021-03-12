@@ -31,14 +31,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.codehaus.janino.Compiler;
 import com.espertech.esper.common.client.hook.singlerowfunc.ExtensionSingleRowFunction;
 import com.espertech.esper.common.client.json.minimaljson.Json;
+import org.springframework.stereotype.Service;
 
 
-
+//@Service
 public class Engine implements Runnable{
     private final String runtimeURI = PEM.getInstance().runtimeURI;
-
-    @Autowired
-    private AlertService alertService;
+//
+//    @Autowired
+//    private AlertService alertService;
 
     public Engine() {
     }
@@ -127,12 +128,22 @@ public class Engine implements Runnable{
         // log listener outputs failure events
         EPStatement demologStatement = runtime.getDeploymentService().getStatement(demoLogDeployment.getDeploymentId(), "demolog-statement");
         demologStatement.addListener( (newData, oldData, statementx, runtimex) -> {
+            String msg = (String) newData[0].get("sus");
             Alert newAlert = new Alert();
             newAlert.setEventId("lol");
-            newAlert.setEventType((String) newData[0].get("sus"));
+            newAlert.setEventType(msg);
             newAlert.setEventName("yaaas");
             newAlert.setCreationDateTime();
-            this.alertService.createOrUpdateAlert(newAlert);
+            try{
+//                this.alertService.createOrUpdateAlert(newAlert);
+            }catch (Exception e){
+            }
+            Executer e = new Executer();
+            try {
+                e.run("MSG from Engien");
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
             String message = (String) newData[0].get("sus");
             System.out.println(message);
         });

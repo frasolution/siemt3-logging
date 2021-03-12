@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.persistence.PreUpdate;
 
 @Entity
 @Table(name = "alerts")
