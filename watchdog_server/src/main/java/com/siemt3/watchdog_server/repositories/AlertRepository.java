@@ -13,6 +13,4 @@ public interface AlertRepository extends JpaRepository<Alert, Integer> {
     @Override
     Optional<Alert> findById(Integer id);
 
-
-
 }

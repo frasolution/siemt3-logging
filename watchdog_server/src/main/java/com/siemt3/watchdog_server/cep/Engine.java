@@ -24,8 +24,8 @@ import com.espertech.esper.runtime.client.EPDeployException;
 import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
-//import com.siemt3.watchdog_server.model.Alert;
-//import com.siemt3.watchdog_server.services.AlertService;
+import com.siemt3.watchdog_server.model.Alert;
+import com.siemt3.watchdog_server.services.AlertService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.codehaus.janino.Compiler;
@@ -37,8 +37,8 @@ import com.espertech.esper.common.client.json.minimaljson.Json;
 public class Engine implements Runnable{
     private final String runtimeURI = PEM.getInstance().runtimeURI;
 
-//    @Autowired
-//    private AlertService alertService;
+    @Autowired
+    private AlertService alertService;
 
     public Engine() {
     }
@@ -127,12 +127,12 @@ public class Engine implements Runnable{
         // log listener outputs failure events
         EPStatement demologStatement = runtime.getDeploymentService().getStatement(demoLogDeployment.getDeploymentId(), "demolog-statement");
         demologStatement.addListener( (newData, oldData, statementx, runtimex) -> {
-//            Alert newAlert = new Alert();
-//            newAlert.setEventId("lol");
-//            newAlert.setEventType((String) newData[0].get("sus"));
-//            newAlert.setEventName("yaaas");
-//            newAlert.setCreationDateTime();
-//            alertService.createOrUpdateAlert(newAlert);
+            Alert newAlert = new Alert();
+            newAlert.setEventId("lol");
+            newAlert.setEventType((String) newData[0].get("sus"));
+            newAlert.setEventName("yaaas");
+            newAlert.setCreationDateTime();
+            this.alertService.createOrUpdateAlert(newAlert);
             String message = (String) newData[0].get("sus");
             System.out.println(message);
         });
