@@ -9,7 +9,7 @@ public class Alert {
     private String eventName;
 
     private long unix_time;
-    private String priority;
+    private int priority;
     private String customData;
 
     public Alert() {
@@ -31,7 +31,7 @@ public class Alert {
         this.unix_time = unix_time;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
@@ -55,7 +55,7 @@ public class Alert {
         return unix_time;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 

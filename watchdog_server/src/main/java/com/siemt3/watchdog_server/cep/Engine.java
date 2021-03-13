@@ -25,9 +25,13 @@ import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 
+import com.siemt3.watchdog_server.condb.App;
 import org.codehaus.janino.Compiler;
 import com.espertech.esper.common.client.hook.singlerowfunc.ExtensionSingleRowFunction;
 import com.espertech.esper.common.client.json.minimaljson.Json;
+import org.springframework.data.mapping.model.AbstractPersistentProperty;
+
+import java.sql.SQLException;
 
 
 public class Engine implements Runnable{
@@ -121,6 +125,11 @@ public class Engine implements Runnable{
         EPStatement demologStatement = runtime.getDeploymentService().getStatement(demoLogDeployment.getDeploymentId(), "demolog-statement");
         demologStatement.addListener( (newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");
+            try {
+                App.dbCommit(message);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             System.out.println(message);
         });
 

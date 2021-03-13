@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class App {
-    public static void dbCommit(String[] args) throws SQLException {
+    public static void dbCommit(String test) throws SQLException {
         //TODO make sessions
         //TODO make prefab statement
         //TODO make proper deconstruct function
@@ -20,7 +20,7 @@ public class App {
             Statement myStatement = myConn.createStatement();
             long timestamp = current_time();
             //errors like alerts can and column names can be ignored here because intelij does not read the data source properly
-            myStatement.executeUpdate("insert into alerts (event_id, event_type, event_name, priority, custom_data,date) values ('TEST', 'TEST','TEST', 1 , 'TEST', FROM_UNIXTIME("+ timestamp +") )");
+            myStatement.executeUpdate("insert into alerts (event_id, event_type, event_name, priority, custom_data, date) values ('TEST', 'TEST','TEST', 1 , '" + test + "', FROM_UNIXTIME(" + timestamp + ") )");
         }catch (SQLException e){
             e.printStackTrace();
         }
