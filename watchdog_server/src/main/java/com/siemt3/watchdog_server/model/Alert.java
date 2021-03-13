@@ -1,41 +1,18 @@
 package com.siemt3.watchdog_server.model;
 
-import java.time.LocalDateTime;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.persistence.PreUpdate;
-
-@Entity
-@Table(name = "alerts")
 public class Alert {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @NotNull
     private String eventId;
 
-    @NotNull
     private String eventType;
 
-    @NotNull
     private String eventName;
 
-    private LocalDateTime date;
+    private long unix_time;
     private String priority;
     private String customData;
 
     public Alert() {
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setEventId(String eventId) {
@@ -50,9 +27,8 @@ public class Alert {
         this.eventName = eventName;
     }
 
-    @PrePersist
-    public void setCreationDateTime() {
-        this.date = LocalDateTime.now();
+    public void setUnix_time(long unix_time) {
+        this.unix_time = unix_time;
     }
 
     public void setPriority(String priority) {
@@ -61,10 +37,6 @@ public class Alert {
 
     public void setCustomData(String customData) {
         this.customData = customData;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getEventId() {
@@ -79,9 +51,8 @@ public class Alert {
         return eventName;
     }
 
-
-    public LocalDateTime getDate() {
-        return date;
+    public long getUnix_time() {
+        return unix_time;
     }
 
     public String getPriority() {
