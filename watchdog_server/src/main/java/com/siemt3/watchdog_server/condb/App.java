@@ -1,5 +1,7 @@
 package com.siemt3.watchdog_server.condb;
 
+import com.siemt3.watchdog_server.model.Alert;
+
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,10 +10,37 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class App {
+    public static void dbCommit(Alert alert) throws SQLException {
+        //TODO better destructuring alert object
+        String eventId = alert.getEventId();
+        String eventType = alert.getEventType();
+        String eventName = alert.getEventName();
+        long unix_time = alert.getUnix_time();
+        int priority = alert.getPriority();
+        String customData = alert.getCustomData();
+
+        //TODO make sessions
+        //TODO make proper deconstruct function
+        //TODO load credentials from external file
+        String url = "jdbc:mysql://localhost:3306/SIEM?createDatabaseIfNotExist=true&serverTimezone=UTC";
+        String user = "root";
+        String password = "Asdfasdf6634";
+        try {
+            Connection myConn = DriverManager.getConnection(url, user, password);
+            Statement myStatement = myConn.createStatement();
+            //TODO make prepared statement
+            //errors like alerts can and column names can be ignored here because intelij does not read the data source properly
+            myStatement.executeUpdate("insert into alerts (event_id, event_type, event_name, priority, custom_data, date) values ('"+eventId+"', '"+eventType+"','"+eventName+"', "+priority+" , '" + customData + "', FROM_UNIXTIME(" + unix_time + ") )");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public static void dbCommit(String test) throws SQLException {
         //TODO make sessions
-        //TODO make prefab statement
+        //TODO make prepared statement
         //TODO make proper deconstruct function
+        //TODO load credentials from external file
         String url = "jdbc:mysql://localhost:3306/SIEM?createDatabaseIfNotExist=true&serverTimezone=UTC";
         String user = "root";
         String password = "Asdfasdf6634";

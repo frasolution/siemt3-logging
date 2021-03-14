@@ -65,6 +65,7 @@ public class Engine implements Runnable{
         CompilerArguments compilerArguments = new CompilerArguments(config);
         EPCompiler compiler = EPCompilerProvider.getCompiler();
 
+        //-----------------DEMO CODE ESPER ------------------------
         // event when demolog does contain "gude" as substring
         EPCompiled gudeCompiled;
         try {
@@ -91,7 +92,6 @@ public class Engine implements Runnable{
         try {
             deployment = runtime.getDeploymentService().deploy(gudeCompiled);
         } catch (EPDeployException ex) {
-            // TODO: handle exception
             throw new RuntimeException(ex);
         }
 
@@ -105,7 +105,7 @@ public class Engine implements Runnable{
         // add demolog statement and compile
         EPCompiled demoLogCompiled;
         try {
-            demoLogCompiled = compiler.compile("@name('demolog-statement') select sus from DemoLogEvent", compilerArguments);
+            demoLogCompiled = compiler.compile("@name('demolog-statement') select sus from DemoLogEvent where sus like '192.168.%.%'", compilerArguments);
         }
         catch (EPCompileException ex) {
             // handle exception here
@@ -133,6 +133,9 @@ public class Engine implements Runnable{
             System.out.println(message);
         });
 
+        //-----------------------------------------------
+
+        //-------------------SSH-------------------------
         // test implementation SSH
         // add sshlog statement and compile
         EPCompiled sshLogCompiled;

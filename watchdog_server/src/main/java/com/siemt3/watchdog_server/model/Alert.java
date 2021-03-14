@@ -15,6 +15,16 @@ public class Alert {
     public Alert() {
     }
 
+    public Alert(String eventId, String eventType, String eventName,
+                 long unix_time, int priority, String customData) {
+        this.eventId = eventId;
+        this.eventType = eventType;
+        this.eventName = eventName;
+        this.unix_time = unix_time;
+        this.priority = priority;
+        this.customData = customData;
+    }
+
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
