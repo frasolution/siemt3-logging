@@ -42,7 +42,6 @@ public class SSHlogController {
         }catch (Exception e){
             throw new Exception("bad log", e);
         }
-
         // send an event bean with log
         // before we get the runtime with help of PEM
         EPRuntime runtime = PEM.getInstance().runtime;
@@ -50,7 +49,7 @@ public class SSHlogController {
                 new SSHBaseLogEvent(
                         log
                 ),
-                "SSHLogEvent"
+                "SSHBaseLogEvent"
         );
     }
 
