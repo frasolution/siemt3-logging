@@ -16,6 +16,7 @@ Esper Engine implementation code
 --*/
 import com.espertech.esper.common.client.EPCompiled;
 import com.espertech.esper.common.client.configuration.Configuration;
+import com.espertech.esper.common.client.module.Module;
 import com.espertech.esper.compiler.client.CompilerArguments;
 import com.espertech.esper.compiler.client.EPCompileException;
 import com.espertech.esper.compiler.client.EPCompiler;
@@ -31,6 +32,7 @@ import com.espertech.esper.common.client.hook.singlerowfunc.ExtensionSingleRowFu
 import com.espertech.esper.common.client.json.minimaljson.Json;
 import org.springframework.data.mapping.model.AbstractPersistentProperty;
 
+import java.io.File;
 import java.sql.SQLException;
 
 
@@ -102,15 +104,27 @@ public class Engine implements Runnable{
             System.out.println(String.format("GudeEvent with msg: %s", message));
         });
 
-        // add demolog statement and compile
-        EPCompiled demoLogCompiled;
-        try {
-            demoLogCompiled = compiler.compile("@name('demolog-statement') select sus from DemoLogEvent where sus like '192.168.%.%'", compilerArguments);
+        String fileName = "testStatement.epl";
+        ClassLoader classLoader = getClass().getClassLoader();
+        EPCompiled demoLogCompiled = null;
+        try{
+            File file = new File(classLoader.getResource(fileName).getFile());
+            Module module = EPCompilerProvider.getCompiler().readModule(file);
+            demoLogCompiled = compiler.compile(module, compilerArguments);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        catch (EPCompileException ex) {
-            // handle exception here
-            throw new RuntimeException(ex);
-        }
+
+
+//        // add demolog statement and compile
+//        EPCompiled demoLogCompiled;
+//        try {
+//            demoLogCompiled = compiler.compile("@name('demolog-statement') select sus from DemoLogEvent where sus like '192.168.%.%'", compilerArguments);
+//        }
+//        catch (EPCompileException ex) {
+//            // handle exception here
+//            throw new RuntimeException(ex);
+//        }
 
         EPDeployment demoLogDeployment;
         try {
@@ -127,8 +141,8 @@ public class Engine implements Runnable{
             String message = (String) newData[0].get("sus");
             try {
                 App.dbCommit(message);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
             }
             System.out.println(message);
         });
@@ -140,7 +154,7 @@ public class Engine implements Runnable{
         // add sshlog statement and compile
         EPCompiled sshLogCompiled;
         try {
-            sshLogCompiled = compiler.compile("@name('sshlog-statement') select log as message from SSHLogEvent", compilerArguments);
+            sshLogCompiled = compiler.compile("@name('sshlog-statement') select log as message from SSHBaseLogEvent", compilerArguments);
         }
         catch (EPCompileException ex) {
             // handle exception here

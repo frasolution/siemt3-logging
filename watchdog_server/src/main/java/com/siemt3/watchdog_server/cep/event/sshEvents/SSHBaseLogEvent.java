@@ -1,4 +1,4 @@
-package com.siemt3.watchdog_server.cep.event;
+package com.siemt3.watchdog_server.cep.event.sshEvents;
 /*++
 Project Name:
 watchdog_server
@@ -13,11 +13,11 @@ hint this does not need to implement serializable
 --*/
 
 //event object for raw SSHLog event
-public class SSHLogEvent {
+public class SSHBaseLogEvent {
 
     private String log;
 
-    public SSHLogEvent(String log) {
+    public SSHBaseLogEvent(String log) {
         this.log = log;
     }
 

@@ -1,4 +1,4 @@
-package com.siemt3.watchdog_server.cep.event;
+package com.siemt3.watchdog_server.cep.event.demoEvents;
 /*++
 Project Name:
 watchdog_server

@@ -1,9 +1,7 @@
-package com.siemt3.watchdog_server.cep.event;
+package com.siemt3.watchdog_server.cep.listener.sshListeners;
 
 import org.springframework.scheduling.support.SimpleTriggerContext;
 
 public class SSHListeners {
-    public static void sortSSHType(String log){
 
-    }
 }

@@ -15,9 +15,7 @@ http rest controller sshlog
 
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.siemt3.watchdog_server.cep.PEM;
-import com.siemt3.watchdog_server.cep.event.DemoLogEvent;
-import com.siemt3.watchdog_server.cep.event.SSHLogEvent;
-import com.siemt3.watchdog_server.model.DemoLogRequest;
+import com.siemt3.watchdog_server.cep.event.sshEvents.SSHBaseLogEvent;
 import com.siemt3.watchdog_server.model.SSHLogRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +47,7 @@ public class SSHlogController {
         // before we get the runtime with help of PEM
         EPRuntime runtime = PEM.getInstance().runtime;
         runtime.getEventService().sendEventBean(
-                new SSHLogEvent(
+                new SSHBaseLogEvent(
                         log
                 ),
                 "SSHLogEvent"

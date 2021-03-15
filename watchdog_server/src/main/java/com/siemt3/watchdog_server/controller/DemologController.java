@@ -16,8 +16,7 @@ you can use this as a reference when creating your endpoint
 
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.siemt3.watchdog_server.cep.PEM;
-import com.siemt3.watchdog_server.cep.event.DemoLogEvent;
-import com.siemt3.watchdog_server.model.Alert;
+import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.model.DemoLogRequest;
 import org.springframework.web.bind.annotation.*;
 
