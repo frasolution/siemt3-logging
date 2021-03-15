@@ -16,14 +16,17 @@ hint this does not need to implement serializable
 public class SSHBaseLogEvent {
 
     private String log;
+    private long arrival_time;
 
     public SSHBaseLogEvent(String log) {
         this.log = log;
+        this.arrival_time = (long)(System.currentTimeMillis() / 1000);
     }
 
     public String getLog() {
-        return log;
+        return this.log;
     }
+    public long getArrival_time(){return this.arrival_time;}
 
     public void setLog(String log) {
         this.log = log;
