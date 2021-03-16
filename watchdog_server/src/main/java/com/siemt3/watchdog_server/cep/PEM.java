@@ -16,8 +16,8 @@ import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPRuntimeProvider;
 import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.GudeEvent;
-import com.siemt3.watchdog_server.cep.event.sshEvents.SSHBaseLogEvent;
-import com.siemt3.watchdog_server.cep.event.sshEvents.SSHDictionaryEvent;
+import com.siemt3.watchdog_server.cep.event.sshEvents.*;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.SshRootFilterListener;
 
 public class PEM {
 
@@ -32,10 +32,18 @@ public class PEM {
     public PEM(){
 
         this.config = new Configuration();
+
         this.config.getCommon().addEventType(GudeEvent.class);
         this.config.getCommon().addEventType(DemoLogEvent.class);
+
         this.config.getCommon().addEventType(SSHBaseLogEvent.class);
+        this.config.getCommon().addEventType(SSHAlgorithmEvent.class);
         this.config.getCommon().addEventType(SSHDictionaryEvent.class);
+        this.config.getCommon().addEventType(SSHIpFilterEvent.class);
+        this.config.getCommon().addEventType(SSHIpEvent.class);
+        this.config.getCommon().addEventType(SSHRoot.class);
+        this.config.getCommon().addEventType(SSHUserEvent.class);
+
         this.runtimeURI = "globalRuntime";
 
         this.runtime = EPRuntimeProvider.getRuntime(this.runtimeURI, this.config);

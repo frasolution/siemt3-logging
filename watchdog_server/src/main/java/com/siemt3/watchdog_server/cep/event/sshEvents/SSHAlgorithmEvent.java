@@ -4,25 +4,21 @@ import com.siemt3.watchdog_server.EventId;
 import com.siemt3.watchdog_server.EventType;
 
 public class SSHAlgorithmEvent {
-    private String eventId;
-    private String eventType;
     private long arrival_time;
     private String username;
     private String algo;
     private String fingerprint;
+    private String ip;
 
-    public SSHAlgorithmEvent(long arrival_time, String username, String algo, String fingerprint) {
-        this.eventId = EventId.SSH_Algorithm;
-        this.eventType = EventType.SSH_Algorithm;
+    public SSHAlgorithmEvent(long arrival_time, String username, String algo, String fingerprint, String ip) {
         this.arrival_time = arrival_time;
         this.username = username;
         this.algo = algo;
         this.fingerprint = fingerprint;
+        this.ip = ip;
     }
 
     public SSHAlgorithmEvent() {
-        this.eventId = EventId.SSH_Algorithm;
-        this.eventType = EventType.SSH_Algorithm;
     }
 
     public long getArrival_time() {
@@ -55,5 +51,13 @@ public class SSHAlgorithmEvent {
 
     public void setFingerprint(String fingerprint) {
         this.fingerprint = fingerprint;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

@@ -4,16 +4,12 @@ import com.siemt3.watchdog_server.EventId;
 import com.siemt3.watchdog_server.EventType;
 
 public class SSHIpEvent {
-    private String eventId;
-    private String eventType;
     private long arrival_time;
     private String ip;
     private String hostname;
     private String username;
 
     public SSHIpEvent(long arrival_time, String ip, String hostname, String username) {
-        this.eventId = EventId.SSH_Ip;
-        this.eventType = EventType.SSH_Ip;
         this.arrival_time = arrival_time;
         this.ip = ip;
         this.hostname = hostname;
@@ -21,8 +17,6 @@ public class SSHIpEvent {
     }
 
     public SSHIpEvent() {
-        this.eventId = EventId.SSH_Ip;
-        this.eventType = EventType.SSH_Ip;
     }
 
     public long getArrival_time() {

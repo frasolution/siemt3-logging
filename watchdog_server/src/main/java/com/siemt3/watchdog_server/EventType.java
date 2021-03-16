@@ -6,7 +6,7 @@ public class EventType {
     // => 41
 
     // SSH = KAT 3
-    public static final String SSH_Dictionary = "SSH_Dictionary";
+    public static final String SSH_Dictionary = "SSH_Failed_Password";
     public static final String SSH_Root = "SSH_Root";
     public static final String SSH_Algorithm = "SSH_Algorithm";
     public static final String SSH_User = "SSH_User";
