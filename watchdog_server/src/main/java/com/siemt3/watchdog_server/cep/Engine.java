@@ -63,7 +63,6 @@ public class Engine implements Runnable {
 
         CompilerArguments compilerArguments = new CompilerArguments(config);
         EPCompiler compiler = EPCompilerProvider.getCompiler();
-
         // -----------------DEMO CODE ESPER ------------------------
         // event when demolog does contain "gude" as substring
         EPCompiled gudeCompiled;
@@ -188,6 +187,7 @@ public class Engine implements Runnable {
             throw new RuntimeException(ex);
         }
 
+        //TODO Abstract this into a for each loop with resolver of listener function and statement <String,Object{String, Object}>
         EPStatement listenerAttacheds1 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-dictionary-filter-statement");
         listenerAttacheds1.addListener(new SshDictionaryFilterListener());
@@ -207,6 +207,10 @@ public class Engine implements Runnable {
         EPStatement listenerAttacheds5 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-ip-filter-statement");
         listenerAttacheds5.addListener(new SshIpFilterListener());
+
+        EPStatement listenerAttacheds6 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
+                "ssh-successful-filter-statement");
+        listenerAttacheds6.addListener(new SshSuccessfulFilterListener());
 
     }
 }

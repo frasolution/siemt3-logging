@@ -11,7 +11,7 @@ where log like '% root %';
 @name('ssh-algorithm-filter-statement')
 select log, arrival_time
 from SSHBaseLogEvent
-where log like '% Accepted publickey %';
+where log like '% publickey for %';
 
 @name('ssh-user-filter-statement')
 select log, arrival_time
@@ -19,9 +19,11 @@ from SSHBaseLogEvent
 where log like '% invalid user %';
 
 @name('ssh-ip-filter-statement')
+select log, arrival_time, ip, username
+from SSHIpFilterEvent
+where not (ip like '10.%.%.%' or ip like '172.%.%.%' or ip like '192.168.0.0');
+
+@name('ssh-successful-filter-statement')
 select log, arrival_time
 from SSHBaseLogEvent
-
-//where log not like '% 10.%.%.% %'
-//or log not like '% 172.%.%.% %'
-//or log not like '% 192.168.%.% %';
+where log like '% Accepted %';
