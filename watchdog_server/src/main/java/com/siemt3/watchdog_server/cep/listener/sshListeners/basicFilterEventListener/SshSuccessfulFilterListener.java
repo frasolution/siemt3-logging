@@ -1,12 +1,13 @@
-package com.siemt3.watchdog_server.cep.listener.sshListeners;
+package com.siemt3.watchdog_server.cep.listener.sshListeners.basicFilterEventListener;
 
 import com.espertech.esper.common.client.EventBean;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 import com.espertech.esper.runtime.client.UpdateListener;
+import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicPassword;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SSHIpFilterEvent;
-
-import javax.swing.plaf.basic.BasicDesktopIconUI;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.lib.SshCommonMethods;
+import com.siemt3.watchdog_server.model.Alert;
 
 public class SshSuccessfulFilterListener implements UpdateListener {
     @Override
@@ -26,7 +27,8 @@ public class SshSuccessfulFilterListener implements UpdateListener {
         username = a2[0];
         a3 =  a2[1].split(" port ");
         ip = a3[0];
-        System.out.println("-"+ip+"-");
+
+        System.out.println(ip + "succ");
 
         runtime.getEventService().sendEventBean(
                 new SSHIpFilterEvent(

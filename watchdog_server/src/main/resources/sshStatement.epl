@@ -26,4 +26,4 @@ where not (ip like '10.%.%.%' or ip like '172.%.%.%' or ip like '192.168.0.0');
 @name('ssh-successful-filter-statement')
 select log, arrival_time
 from SSHBaseLogEvent
-where log like '% Accepted %';
+where (log like '% Accepted password for %' and not log like '% root %');

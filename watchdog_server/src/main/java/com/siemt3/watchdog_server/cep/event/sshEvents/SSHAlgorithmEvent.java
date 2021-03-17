@@ -1,8 +1,5 @@
 package com.siemt3.watchdog_server.cep.event.sshEvents;
 
-import com.siemt3.watchdog_server.EventId;
-import com.siemt3.watchdog_server.EventType;
-
 public class SSHAlgorithmEvent {
     private long arrival_time;
     private String username;
@@ -16,9 +13,6 @@ public class SSHAlgorithmEvent {
         this.algo = algo;
         this.fingerprint = fingerprint;
         this.ip = ip;
-    }
-
-    public SSHAlgorithmEvent() {
     }
 
     public long getArrival_time() {

@@ -17,7 +17,6 @@ import com.espertech.esper.runtime.client.EPRuntimeProvider;
 import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.GudeEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.*;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.SshRootFilterListener;
 
 public class PEM {
 

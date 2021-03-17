@@ -1,7 +1,7 @@
 
 
 
-package com.siemt3.watchdog_server.cep.listener.sshListeners;
+package com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener;
 
 import com.espertech.esper.common.client.EventBean;
 import com.espertech.esper.runtime.client.EPRuntime;

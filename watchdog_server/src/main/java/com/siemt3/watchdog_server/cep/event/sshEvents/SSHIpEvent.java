@@ -1,8 +1,5 @@
 package com.siemt3.watchdog_server.cep.event.sshEvents;
 
-import com.siemt3.watchdog_server.EventId;
-import com.siemt3.watchdog_server.EventType;
-
 public class SSHIpEvent {
     private long arrival_time;
     private String ip;

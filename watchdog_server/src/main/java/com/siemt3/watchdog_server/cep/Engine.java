@@ -27,8 +27,13 @@ import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 
-import com.siemt3.watchdog_server.cep.listener.sshListeners.*;
-import com.siemt3.watchdog_server.condb.App;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshAlgorithmFilterListener;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshRootFilterListener;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshUserFilterListener;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.basicFilterEventListener.SshDictionaryFilterListener;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshIpFilterListener;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.basicFilterEventListener.SshSuccessfulFilterListener;
+import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -131,7 +136,7 @@ public class Engine implements Runnable {
         demologStatement.addListener((newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");
             try {
-                App.dbCommit(message);
+                DataBase.dbCommit(message);
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
             }

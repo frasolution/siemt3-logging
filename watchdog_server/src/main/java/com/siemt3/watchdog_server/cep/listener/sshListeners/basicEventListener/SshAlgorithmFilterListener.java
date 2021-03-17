@@ -1,21 +1,26 @@
-package com.siemt3.watchdog_server.cep.listener.sshListeners;
+package com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener;
 
 import com.espertech.esper.common.client.EventBean;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 import com.espertech.esper.runtime.client.UpdateListener;
-import com.siemt3.watchdog_server.EventId;
+import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
+import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicAuth;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SSHAlgorithmEvent;
+import com.siemt3.watchdog_server.cep.listener.sshListeners.lib.SshCommonMethods;
+import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
+
+import java.sql.SQLException;
 
 public class SshAlgorithmFilterListener implements UpdateListener {
     @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         String log = (String) newEvents[0].get("log");
         long arrival_time = (long) newEvents[0].get("arrival_time");
-        System.out.println(log + " @3 " + arrival_time );
+//        System.out.println(log + " @3 " + arrival_time );
         String username, algo, fingerprint, ip ;
         String[] a1, a2, a3, a4, a5;
 
@@ -32,6 +37,20 @@ public class SshAlgorithmFilterListener implements UpdateListener {
         fingerprint = a4[1];
         ip = a5[0];
 
+        SshBasicAuth sshBasicAuth = new SshBasicAuth(username,algo,fingerprint,ip);
+        String custom_data = SshCommonMethods.toJson(sshBasicAuth);
+        Alert alert = new Alert()
+                .setEventType(EventType.SSH)
+                .setEventName(EventName.SSH_Algorithm)
+                .setUnix_time(arrival_time)
+                .setPriority(Severity.GREEN)
+                .setCustomData(custom_data);
+        try {
+            DataBase.dbCommit(alert);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         //verified parse
         //System.out.println(username + algo + fingerprint + ip);
 
@@ -45,7 +64,5 @@ public class SshAlgorithmFilterListener implements UpdateListener {
                 ),
                 "SSHAlgorithmEvent"
         );
-
-//        new Alert(EventId.SSH_Algorithm, EventType.SSH_Algorithm, "justus", arrival_time, Severity.GREEN, )
     }
 }
