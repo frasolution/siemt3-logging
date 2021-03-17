@@ -1,13 +1,8 @@
 package com.siemt3.watchdog_server.model;
 
 public class Alert {
-
-    private String eventId;
-
     private String eventType;
-
     private String eventName;
-
     private long unix_time;
     private int priority;
     private String customData;
@@ -15,9 +10,8 @@ public class Alert {
     public Alert() {
     }
 
-    public Alert(String eventId, String eventType, String eventName,
+    public Alert(String eventType, String eventName,
                  long unix_time, int priority, String customData) {
-        this.eventId = eventId;
         this.eventType = eventType;
         this.eventName = eventName;
         this.unix_time = unix_time;
@@ -25,32 +19,29 @@ public class Alert {
         this.customData = customData;
     }
 
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
-    }
-
-    public void setEventType(String eventType) {
+    public Alert setEventType(String eventType) {
         this.eventType = eventType;
+        return this;
     }
 
-    public void setEventName(String eventName) {
+    public Alert setEventName(String eventName) {
         this.eventName = eventName;
+        return this;
     }
 
-    public void setUnix_time(long unix_time) {
+    public Alert setUnix_time(long unix_time) {
         this.unix_time = unix_time;
+        return this;
     }
 
-    public void setPriority(int priority) {
+    public Alert setPriority(int priority) {
         this.priority = priority;
+        return this;
     }
 
-    public void setCustomData(String customData) {
+    public Alert setCustomData(String customData) {
         this.customData = customData;
-    }
-
-    public String getEventId() {
-        return eventId;
+        return this;
     }
 
     public String getEventType() {

@@ -9,10 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class App {
+public class DataBase {
     public static void dbCommit(Alert alert) throws SQLException {
         //TODO better destructuring alert object
-        String eventId = alert.getEventId();
         String eventType = alert.getEventType();
         String eventName = alert.getEventName();
         long unix_time = alert.getUnix_time();
@@ -30,7 +29,7 @@ public class App {
             Statement myStatement = myConn.createStatement();
             //TODO make prepared statement
             //errors like alerts can and column names can be ignored here because intelij does not read the data source properly
-            myStatement.executeUpdate("insert into alerts (event_id, event_type, event_name, priority, custom_data, date) values ('"+eventId+"', '"+eventType+"','"+eventName+"', "+priority+" , '" + customData + "', FROM_UNIXTIME(" + unix_time + ") )");
+            myStatement.executeUpdate("insert into alerts (event_type, event_name, priority, custom_data, date) values ('"+eventType+"','"+eventName+"', "+priority+" , '" + customData + "', FROM_UNIXTIME(" + unix_time + ") )");
         }catch (SQLException e){
             e.printStackTrace();
         }
