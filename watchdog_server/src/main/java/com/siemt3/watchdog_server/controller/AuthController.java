@@ -1,5 +1,17 @@
 package com.siemt3.watchdog_server.controller;
 
+/*++
+Project Name:
+watchdog_server
+
+Author:
+Maximilian Medlin (Meshstyles)
+
+Description:
+http rest controller for authentication
+
+--*/
+
 import com.siemt3.watchdog_server.model.AuthenticationRequest;
 import com.siemt3.watchdog_server.model.AuthenticationResponse;
 import com.siemt3.watchdog_server.services.MyUserDetailsService;

@@ -9,34 +9,38 @@ Author:
 Maximilian Medlin (Meshstyles)
 
 Description:
-http rest controller as sample code
-you can use this as a reference when creating your endpoint
+http rest controller sshlog
 
 --*/
 
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.siemt3.watchdog_server.cep.PEM;
 import com.siemt3.watchdog_server.cep.event.DemoLogEvent;
+import com.siemt3.watchdog_server.cep.event.SSHLogEvent;
 import com.siemt3.watchdog_server.model.DemoLogRequest;
-import org.springframework.web.bind.annotation.*;
+import com.siemt3.watchdog_server.model.SSHLogRequest;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DemologController {
+public class SSHlogController {
 
     /**
      *
-     * @param demoLogRequest reqests that shall be send to the demoLog Endpoint
+     * @param sshLogRequest request that shall be send to the demoLog Endpoint
      * @throws Exception
      *
      * @returns void Attention! this should be void if you don't want to send more than HTTP 200 back to client
      */
-    @RequestMapping(value = "/api/v1/demolog", method =  RequestMethod.POST)
-    public void echoDemoString(@RequestBody DemoLogRequest demoLogRequest) throws Exception{
+    @RequestMapping(value = "/api/v1/ssh", method =  RequestMethod.POST)
+    public void echoDemoString(@RequestBody SSHLogRequest sshLogRequest) throws Exception{
         // This is required to deserialize the Object
         // Can also result in a error on deserializing
         String log;
         try{
-            log = demoLogRequest.getSus();
+            log = sshLogRequest.getLog();
         }catch (Exception e){
             throw new Exception("bad log", e);
         }
@@ -45,10 +49,10 @@ public class DemologController {
         // before we get the runtime with help of PEM
         EPRuntime runtime = PEM.getInstance().runtime;
         runtime.getEventService().sendEventBean(
-                new DemoLogEvent(
+                new SSHLogEvent(
                         log
                 ),
-                "DemoLogEvent"
+                "SSHLogEvent"
         );
     }
 

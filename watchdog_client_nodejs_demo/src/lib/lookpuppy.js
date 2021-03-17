@@ -52,7 +52,7 @@ async function push(message) {
 
 async function sshlog(log) {
     // use combined object to with logtype("endpoint") and the actual log "object"
-    let message = { logtype: "demolog", logobject: { sus: log } }
+    let message = { logtype: "ssh", logobject: { log: log } }
     push(message);
 }
 

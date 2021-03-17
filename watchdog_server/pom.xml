@@ -53,6 +53,64 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.4.0-b180830.0359</version>
 		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.codehaus.janino/commons-compiler -->
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>commons-compiler</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.espertech/esper-common -->
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esper-common</artifactId>
+			<version>8.6.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.espertech/esper-compiler -->
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esper-compiler</artifactId>
+			<version>8.6.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.espertech/esper-runtime -->
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esper-runtime</artifactId>
+			<version>8.6.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.antlr/antlr4-runtime -->
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.7.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.26</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
