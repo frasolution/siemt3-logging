@@ -1,20 +1,11 @@
-package com.siemt3.watchdog_server.cep.listener.sshListeners.basicFilterEventListener;
+package com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener;
 
 import com.espertech.esper.common.client.EventBean;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 import com.espertech.esper.runtime.client.UpdateListener;
-import com.siemt3.watchdog_server.EventName;
-import com.siemt3.watchdog_server.EventType;
-import com.siemt3.watchdog_server.Severity;
-import com.siemt3.watchdog_server.cep.PEM;
-import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicPassword;
-import com.siemt3.watchdog_server.cep.event.sshEvents.SSHDictionaryEvent;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.lib.SshCommonMethods;
-import com.siemt3.watchdog_server.condb.DataBase;
-import com.siemt3.watchdog_server.model.Alert;
-
-import java.sql.SQLException;
+import com.siemt3.watchdog_server.cep.event.sshEvents.SshDictionaryEvent;
+import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpFilterEvent;
 
 public class SshDictionaryFilterListener implements UpdateListener {
     @Override
@@ -49,12 +40,22 @@ public class SshDictionaryFilterListener implements UpdateListener {
 //        }
 
         runtime.getEventService().sendEventBean(
-                new SSHDictionaryEvent(
+                new SshDictionaryEvent(
                         arrival_time,
                         username,
                         ip
                 ),
                 "SSHDictionaryEvent"
+        );
+
+        runtime.getEventService().sendEventBean(
+                new SshIpFilterEvent(
+                        arrival_time,
+                        ip,
+                        log,
+                        username
+                ),
+                "SshIpFilterEvent"
         );
     }
 }

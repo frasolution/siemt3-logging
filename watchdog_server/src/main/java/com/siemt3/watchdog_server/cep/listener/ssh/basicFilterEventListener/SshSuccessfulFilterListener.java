@@ -1,13 +1,10 @@
-package com.siemt3.watchdog_server.cep.listener.sshListeners.basicFilterEventListener;
+package com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener;
 
 import com.espertech.esper.common.client.EventBean;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 import com.espertech.esper.runtime.client.UpdateListener;
-import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicPassword;
-import com.siemt3.watchdog_server.cep.event.sshEvents.SSHIpFilterEvent;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.lib.SshCommonMethods;
-import com.siemt3.watchdog_server.model.Alert;
+import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpFilterEvent;
 
 public class SshSuccessfulFilterListener implements UpdateListener {
     @Override
@@ -31,13 +28,13 @@ public class SshSuccessfulFilterListener implements UpdateListener {
         System.out.println(ip + "succ");
 
         runtime.getEventService().sendEventBean(
-                new SSHIpFilterEvent(
+                new SshIpFilterEvent(
                         arrival_time,
                         ip,
                         log,
                         username
                 ),
-                "SSHIpFilterEvent"
+                "SshIpFilterEvent"
         );
     }
 }

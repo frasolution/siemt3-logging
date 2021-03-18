@@ -27,12 +27,12 @@ import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 
-import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshAlgorithmFilterListener;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshRootFilterListener;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshUserFilterListener;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.basicFilterEventListener.SshDictionaryFilterListener;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.basicEventListener.SshIpFilterListener;
-import com.siemt3.watchdog_server.cep.listener.sshListeners.basicFilterEventListener.SshSuccessfulFilterListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshAlgorithmBasicListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshRootBasicListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshUserBasicListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshDictionaryFilterListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshIpBasicListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
 import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
@@ -199,19 +199,19 @@ public class Engine implements Runnable {
 
         EPStatement listenerAttacheds2 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-root-filter-statement");
-        listenerAttacheds2.addListener(new SshRootFilterListener());
+        listenerAttacheds2.addListener(new SshRootBasicListener());
 
         EPStatement listenerAttacheds3 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-algorithm-filter-statement");
-        listenerAttacheds3.addListener(new SshAlgorithmFilterListener());
+        listenerAttacheds3.addListener(new SshAlgorithmBasicListener());
 
         EPStatement listenerAttacheds4 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-user-filter-statement");
-        listenerAttacheds4.addListener(new SshUserFilterListener());
+        listenerAttacheds4.addListener(new SshUserBasicListener());
 
         EPStatement listenerAttacheds5 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-ip-filter-statement");
-        listenerAttacheds5.addListener(new SshIpFilterListener());
+        listenerAttacheds5.addListener(new SshIpBasicListener());
 
         EPStatement listenerAttacheds6 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-successful-filter-statement");

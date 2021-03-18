@@ -1,29 +1,29 @@
 @name('ssh-dictionary-filter-statement')
 select log, arrival_time
-from SSHBaseLogEvent
+from SshBaseLogEvent
 where log like '% Failed password %';
 
 @name('ssh-root-filter-statement')
 select log, arrival_time
-from SSHBaseLogEvent
+from SshBaseLogEvent
 where log like '% root %';
 
 @name('ssh-algorithm-filter-statement')
 select log, arrival_time
-from SSHBaseLogEvent
+from SshBaseLogEvent
 where log like '% publickey for %';
 
 @name('ssh-user-filter-statement')
 select log, arrival_time
-from SSHBaseLogEvent
+from SshBaseLogEvent
 where log like '% invalid user %';
 
 @name('ssh-ip-filter-statement')
 select log, arrival_time, ip, username
-from SSHIpFilterEvent
-where not (ip like '10.%.%.%' or ip like '172.%.%.%' or ip like '192.168.0.0');
+from SshIpFilterEvent
+where not (ip like '10.%.%.%' or ip like '172.%.%.%' or ip like '192.168.%.%');
 
 @name('ssh-successful-filter-statement')
 select log, arrival_time
-from SSHBaseLogEvent
+from SshBaseLogEvent
 where (log like '% Accepted password for %' and not log like '% root %');

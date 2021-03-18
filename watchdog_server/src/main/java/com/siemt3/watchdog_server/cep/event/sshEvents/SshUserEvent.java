@@ -1,17 +1,14 @@
 package com.siemt3.watchdog_server.cep.event.sshEvents;
 
-public class SSHUserEvent {
+public class SshUserEvent {
     private long arrival_time;
     private String username;
     private String ip;
 
-    public SSHUserEvent(long arrival_time, String username, String ip) {
+    public SshUserEvent(long arrival_time, String username, String ip) {
         this.arrival_time = arrival_time;
         this.username = username;
         this.ip = ip;
-    }
-
-    public SSHUserEvent() {
     }
 
     public long getArrival_time() {

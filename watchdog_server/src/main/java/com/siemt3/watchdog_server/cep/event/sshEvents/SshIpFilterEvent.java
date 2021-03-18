@@ -1,19 +1,16 @@
 package com.siemt3.watchdog_server.cep.event.sshEvents;
 
-public class SSHIpEvent {
+public class SshIpFilterEvent {
     private long arrival_time;
     private String ip;
-    private String hostname;
+    private String log;
     private String username;
 
-    public SSHIpEvent(long arrival_time, String ip, String hostname, String username) {
+    public SshIpFilterEvent(long arrival_time, String ip, String log, String username) {
         this.arrival_time = arrival_time;
         this.ip = ip;
-        this.hostname = hostname;
+        this.log = log;
         this.username = username;
-    }
-
-    public SSHIpEvent() {
     }
 
     public long getArrival_time() {
@@ -32,12 +29,12 @@ public class SSHIpEvent {
         this.ip = ip;
     }
 
-    public String getHostname() {
-        return hostname;
+    public String getLog() {
+        return log;
     }
 
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
+    public void setLog(String log) {
+        this.log = log;
     }
 
     public String getUsername() {

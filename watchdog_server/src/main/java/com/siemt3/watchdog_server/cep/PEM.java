@@ -35,13 +35,13 @@ public class PEM {
         this.config.getCommon().addEventType(GudeEvent.class);
         this.config.getCommon().addEventType(DemoLogEvent.class);
 
-        this.config.getCommon().addEventType(SSHBaseLogEvent.class);
-        this.config.getCommon().addEventType(SSHAlgorithmEvent.class);
-        this.config.getCommon().addEventType(SSHDictionaryEvent.class);
-        this.config.getCommon().addEventType(SSHIpFilterEvent.class);
-        this.config.getCommon().addEventType(SSHIpEvent.class);
-        this.config.getCommon().addEventType(SSHRoot.class);
-        this.config.getCommon().addEventType(SSHUserEvent.class);
+        this.config.getCommon().addEventType(SshBaseLogEvent.class);
+        this.config.getCommon().addEventType(SshAlgorithmEvent.class);
+        this.config.getCommon().addEventType(SshDictionaryEvent.class);
+        this.config.getCommon().addEventType(SshIpFilterEvent.class);
+        this.config.getCommon().addEventType(SshIpEvent.class);
+        this.config.getCommon().addEventType(SshRootEvent.class);
+        this.config.getCommon().addEventType(SshUserEvent.class);
 
         this.runtimeURI = "globalRuntime";
 

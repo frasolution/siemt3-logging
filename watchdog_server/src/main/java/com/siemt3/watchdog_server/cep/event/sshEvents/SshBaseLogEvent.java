@@ -13,12 +13,12 @@ hint this does not need to implement serializable
 --*/
 
 //event object for raw SSHLog event
-public class SSHBaseLogEvent {
+public class SshBaseLogEvent {
 
     private String log;
     private long arrival_time;
 
-    public SSHBaseLogEvent(String log) {
+    public SshBaseLogEvent(String log) {
         this.log = log;
         this.arrival_time = (long)(System.currentTimeMillis() / 1000);
     }

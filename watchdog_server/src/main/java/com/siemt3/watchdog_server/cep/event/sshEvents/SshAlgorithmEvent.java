@@ -1,13 +1,13 @@
 package com.siemt3.watchdog_server.cep.event.sshEvents;
 
-public class SSHAlgorithmEvent {
+public class SshAlgorithmEvent {
     private long arrival_time;
     private String username;
     private String algo;
     private String fingerprint;
     private String ip;
 
-    public SSHAlgorithmEvent(long arrival_time, String username, String algo, String fingerprint, String ip) {
+    public SshAlgorithmEvent(long arrival_time, String username, String algo, String fingerprint, String ip) {
         this.arrival_time = arrival_time;
         this.username = username;
         this.algo = algo;
