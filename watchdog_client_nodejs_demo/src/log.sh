@@ -16,7 +16,7 @@ do
             echo "ei gude" >> log.log
             sleep $delay;;
         5)
-            echo "jo wie?" >> log.log
+            echo "gude wie?" >> log.log
             sleep $delay;;
         6)
             echo "hello" >> log.log

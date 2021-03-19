@@ -1,5 +1,15 @@
 package com.siemt3.watchdog_server.model;
+/*++
+Project Name:
+watchdog_server
 
+Author:
+Maximilian Medlin (Meshstyles)
+
+Description:
+sample model for a http request of type demolog
+
+--*/
 import java.io.Serializable;
 
 public class DemoLogRequest implements Serializable {
