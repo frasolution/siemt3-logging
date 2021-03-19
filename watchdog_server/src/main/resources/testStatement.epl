@@ -1,0 +1,5 @@
+@name('demolog-statement')
+select sus
+from DemoLogEvent
+where sus
+like '192.168.%.%'
