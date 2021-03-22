@@ -1,15 +1,67 @@
 package com.siemt3.watchdog_server.condb;
 
 import com.siemt3.watchdog_server.model.Alert;
+import com.siemt3.watchdog_server.model.Threshold;
 
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class DataBase {
+
+    public static HashMap<String, ArrayList<Threshold>> fetch(){
+        String url = "jdbc:mysql://localhost:3306/SIEM?createDatabaseIfNotExist=true&serverTimezone=UTC";
+        String user = "root";
+        String password = "Asdfasdf6634";
+        try{
+            Connection myConn = DriverManager.getConnection(url, user, password);
+            Statement myStatement = myConn.createStatement();
+            String sqlStatement = "select * from thresholds";
+            ResultSet rs = myStatement.executeQuery(sqlStatement);
+            ArrayList <Threshold> test = new ArrayList<Threshold>();
+            ArrayList <Threshold> apache2 = new ArrayList<Threshold>();
+            ArrayList <Threshold> port = new ArrayList<Threshold>();
+            ArrayList <Threshold> ssh = new ArrayList<Threshold>();
+            while(rs.next()){
+                String name = rs.getString("name");
+                String type = rs.getString("type");
+                int count = rs.getInt("count");
+                int time = rs.getInt("time");
+
+                switch(type){
+                    case "test":
+                        test.add(new Threshold(name,count,time));
+                        break;
+                    case "apache2":
+                        apache2.add(new Threshold(name,count,time));
+                        break;
+                    case "port":
+                        port.add(new Threshold(name,count,time));
+                        break;
+                    case "ssh":
+                        ssh.add(new Threshold(name,count,time));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            HashMap<String, ArrayList<Threshold>> hm = new HashMap<String, ArrayList<Threshold>>();
+            hm.put("test", test);
+            hm.put("apache2", apache2);
+            hm.put("port", port);
+            hm.put("ssh", ssh);
+            return hm;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new HashMap<String, ArrayList<Threshold>>();
+    }
+
     public static void dbCommit(Alert alert) throws SQLException {
         //TODO better destructuring alert object
         String eventType = alert.getEventType();
