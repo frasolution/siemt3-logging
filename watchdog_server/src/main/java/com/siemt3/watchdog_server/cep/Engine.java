@@ -100,38 +100,27 @@ public class Engine implements Runnable {
             System.out.println(String.format("GudeEvent with msg: %s", message));
         });
 
-        String fileName = "testStatement.epl";
+//        String fileName = "testStatement.epl";
         ClassLoader classLoader = getClass().getClassLoader();
-        EPCompiled demoLogCompiled = null;
-        try {
-            File file = new File(classLoader.getResource(fileName).getFile());
-            Module module = EPCompilerProvider.getCompiler().readModule(file);
-            demoLogCompiled = compiler.compile(module, compilerArguments);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // // add demolog statement and compile
-        // EPCompiled demoLogCompiled;
-        // try {
-        // demoLogCompiled = compiler.compile("@name('demolog-statement') select sus
-        // from DemoLogEvent where sus like '192.168.%.%'", compilerArguments);
-        // }
-        // catch (EPCompileException ex) {
-        // // handle exception here
-        // throw new RuntimeException(ex);
-        // }
-
-        EPDeployment demoLogDeployment;
-        try {
-            demoLogDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
-        } catch (EPDeployException ex) {
-            // handle exception here
-            throw new RuntimeException(ex);
-        }
+//        EPCompiled demoLogCompiled = null;
+//        try {
+//            File file = new File(classLoader.getResource(fileName).getFile());
+//            Module module = EPCompilerProvider.getCompiler().readModule(file);
+//            demoLogCompiled = compiler.compile(module, compilerArguments);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        EPDeployment demoLogDeployment;
+//        try {
+//            demoLogDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
+//        } catch (EPDeployException ex) {
+//            // handle exception here
+//            throw new RuntimeException(ex);
+//        }
 
         // log listener outputs failure events
-        EPStatement demologStatement = runtime.getDeploymentService().getStatement(demoLogDeployment.getDeploymentId(),
+        EPStatement demologStatement = runtime.getDeploymentService().getStatement(PEM.getInstance().demoLogDeployment.getDeploymentId(),
                 "demolog-statement");
         demologStatement.addListener((newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");
