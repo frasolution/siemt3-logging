@@ -186,9 +186,13 @@ public class Engine implements Runnable {
                 "ssh-dictionary-filter-statement");
         listenerAttacheds1.addListener(new SshDictionaryFilterListener());
 
-        EPStatement listenerAttacheds2 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-root-filter-statement");
-        listenerAttacheds2.addListener(new SshRootBasicListener());
+//        EPStatement listenerAttacheds2 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
+//                "ssh-root-filter-statement");
+//        listenerAttacheds2.addListener(new SshRootBasicListener());
+
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(),"ssh-root-filter-statement")
+                .addListener(new SshRootBasicListener());
 
         EPStatement listenerAttacheds3 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-algorithm-filter-statement");
