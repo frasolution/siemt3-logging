@@ -1,6 +1,7 @@
 package com.siemt3.watchdog_server.condb;
 
 import com.espertech.esper.common.internal.util.DeploymentIdNamePair;
+import com.siemt3.watchdog_server.GlobalVariables;
 import com.siemt3.watchdog_server.cep.Engine;
 import com.siemt3.watchdog_server.cep.PEM;
 import com.siemt3.watchdog_server.model.Threshold;
@@ -30,18 +31,17 @@ public class UpdateThreshold implements Runnable {
     }
 
     private void loop() throws Exception{
-        HashMap<String, ArrayList<Threshold>> hashMap = DataBase.fetch();
-        ArrayList<Threshold> test = hashMap.get("test");
-        test.forEach((threshold) -> {
-            DeploymentIdNamePair deploymentIdNamePairCount = new DeploymentIdNamePair(PEM.getInstance().demoLogDeployment.getDeploymentId(), threshold.name);
+        ArrayList<Threshold> arrayList = DataBase.fetch();
+        arrayList.forEach((threshold) -> {
+            String name = threshold.name;
+            DeploymentIdNamePair deploymentIdNamePairCount = new DeploymentIdNamePair(PEM.getInstance().globalDeployment.getDeploymentId(), name );
             Map<DeploymentIdNamePair, Object> map = new HashMap<DeploymentIdNamePair,Object>();
-            int count = threshold.count;
+            int count = threshold.number;
             map.put(deploymentIdNamePairCount, count);
-            System.out.println(count + threshold.name);
+            System.out.println(count + name);
             PEM.getInstance().runtime.getVariableService().setVariableValue(map);
-
         });
-        Thread.sleep(60000);
+        Thread.sleep(GlobalVariables.DBUPDATECYCLE);
         loop();
     }
 }

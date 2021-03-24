@@ -120,7 +120,7 @@ public class Engine implements Runnable {
 //        }
 
         // log listener outputs failure events
-        EPStatement demologStatement = runtime.getDeploymentService().getStatement(PEM.getInstance().demoLogDeployment.getDeploymentId(),
+        EPStatement demologStatement = runtime.getDeploymentService().getStatement(PEM.getInstance().globalDeployment.getDeploymentId(),
                 "demolog-statement");
         demologStatement.addListener((newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");

@@ -36,7 +36,7 @@ public class PEM {
     public Configuration config;
     public String runtimeURI;
     public EPRuntime runtime;
-    public EPDeployment demoLogDeployment;
+    public EPDeployment globalDeployment;
 
     public PEM(){
 
@@ -70,10 +70,9 @@ public class PEM {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 //        EPDeployment demoLogDeployment;
         try {
-            demoLogDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
+            globalDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
         } catch (EPDeployException ex) {
             // handle exception here
             throw new RuntimeException(ex);
