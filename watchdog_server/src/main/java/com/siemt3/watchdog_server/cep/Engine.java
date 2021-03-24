@@ -182,33 +182,35 @@ public class Engine implements Runnable {
         }
 
         //TODO Abstract this into a for each loop with resolver of listener function and statement <String,Object{String, Object}>
-        EPStatement listenerAttacheds1 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-dictionary-filter-statement");
-        listenerAttacheds1.addListener(new SshDictionaryFilterListener());
-
-//        EPStatement listenerAttacheds2 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-//                "ssh-root-filter-statement");
-//        listenerAttacheds2.addListener(new SshRootBasicListener());
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(),
+                "ssh-dictionary-filter-statement")
+                .addListener(new SshDictionaryFilterListener());
 
         runtime.getDeploymentService()
-                .getStatement(sshLogDeployment.getDeploymentId(),"ssh-root-filter-statement")
+                .getStatement(sshLogDeployment.getDeploymentId(),
+                "ssh-root-filter-statement")
                 .addListener(new SshRootBasicListener());
 
-        EPStatement listenerAttacheds3 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-algorithm-filter-statement");
-        listenerAttacheds3.addListener(new SshAlgorithmBasicListener());
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(),
+                "ssh-algorithm-filter-statement")
+                .addListener(new SshAlgorithmBasicListener());
 
-        EPStatement listenerAttacheds4 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-user-filter-statement");
-        listenerAttacheds4.addListener(new SshUserBasicListener());
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(),
+                "ssh-user-filter-statement")
+                .addListener(new SshUserBasicListener());
 
-        EPStatement listenerAttacheds5 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-ip-filter-statement");
-        listenerAttacheds5.addListener(new SshIpBasicListener());
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(),
+                "ssh-ip-filter-statement")
+                .addListener(new SshIpBasicListener());
 
-        EPStatement listenerAttacheds6 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-successful-filter-statement");
-        listenerAttacheds6.addListener(new SshSuccessfulFilterListener());
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(),
+                "ssh-successful-filter-statement")
+                .addListener(new SshSuccessfulFilterListener());
 
     }
 }
