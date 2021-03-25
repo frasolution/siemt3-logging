@@ -11,13 +11,22 @@ Permanent Engine Manager
 Manager Singleton that "manages" our variables which are need to be accessed throughout the entire project
 
 --*/
+import com.espertech.esper.common.client.EPCompiled;
 import com.espertech.esper.common.client.configuration.Configuration;
+import com.espertech.esper.common.client.module.Module;
+import com.espertech.esper.compiler.client.CompilerArguments;
+import com.espertech.esper.compiler.client.EPCompiler;
+import com.espertech.esper.compiler.client.EPCompilerProvider;
+import com.espertech.esper.runtime.client.EPDeployException;
+import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPRuntimeProvider;
 import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2LogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.GudeEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.*;
+
+import java.io.File;
 
 public class PEM {
 
@@ -28,6 +37,7 @@ public class PEM {
     public Configuration config;
     public String runtimeURI;
     public EPRuntime runtime;
+    public EPDeployment globalDeployment;
 
     public PEM(){
 
@@ -50,8 +60,30 @@ public class PEM {
 
 
         this.runtimeURI = "globalRuntime";
-
         this.runtime = EPRuntimeProvider.getRuntime(this.runtimeURI, this.config);
+
+        /////////////////////
+
+        EPCompiler compiler = EPCompilerProvider.getCompiler();
+        CompilerArguments compilerArguments = new CompilerArguments(config);
+        String fileName = "testStatement.epl";
+        ClassLoader classLoader = getClass().getClassLoader();
+        EPCompiled demoLogCompiled = null;
+        try {
+            File file = new File(classLoader.getResource(fileName).getFile());
+            Module module = EPCompilerProvider.getCompiler().readModule(file);
+            demoLogCompiled = compiler.compile(module, compilerArguments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        EPDeployment demoLogDeployment;
+        try {
+            globalDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
+        } catch (EPDeployException ex) {
+            // handle exception here
+            throw new RuntimeException(ex);
+        }
+
     }
 
     public static PEM getInstance(){

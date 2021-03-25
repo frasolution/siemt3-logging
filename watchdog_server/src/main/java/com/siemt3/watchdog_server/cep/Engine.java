@@ -101,40 +101,28 @@ public class Engine implements Runnable {
             System.out.println(String.format("GudeEvent with msg: %s", message));
         });
 
-
-        String fileName = "testStatement.epl";
-        ClassLoader classLoader = getClass().getClassLoader();
-        EPCompiled demoLogCompiled = null;
-        try {
-            File file = new File(classLoader.getResource(fileName).getFile());
-            Module module = EPCompilerProvider.getCompiler().readModule(file);
-            demoLogCompiled = compiler.compile(module, compilerArguments);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // // add demolog statement and compile
-        // EPCompiled demoLogCompiled;
+        // String fileName = "testStatement.epl";
+//        ClassLoader classLoader = getClass().getClassLoader();
+        // EPCompiled demoLogCompiled = null;
         // try {
-        // demoLogCompiled = compiler.compile("@name('demolog-statement') select sus
-        // from DemoLogEvent where sus like '192.168.%.%'", compilerArguments);
+        // File file = new File(classLoader.getResource(fileName).getFile());
+        // Module module = EPCompilerProvider.getCompiler().readModule(file);
+        // demoLogCompiled = compiler.compile(module, compilerArguments);
+        // } catch (Exception e) {
+        // e.printStackTrace();
         // }
-        // catch (EPCompileException ex) {
+        //
+        // EPDeployment demoLogDeployment;
+        // try {
+        // demoLogDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
+        // } catch (EPDeployException ex) {
         // // handle exception here
         // throw new RuntimeException(ex);
         // }
 
-        EPDeployment demoLogDeployment;
-        try {
-            demoLogDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
-        } catch (EPDeployException ex) {
-            // handle exception here
-            throw new RuntimeException(ex);
-        }
-
         // log listener outputs failure events
-        EPStatement demologStatement = runtime.getDeploymentService().getStatement(demoLogDeployment.getDeploymentId(),
-                "demolog-statement");
+        EPStatement demologStatement = runtime.getDeploymentService()
+                .getStatement(PEM.getInstance().globalDeployment.getDeploymentId(), "demolog-statement");
         demologStatement.addListener((newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");
             try {
@@ -177,6 +165,7 @@ public class Engine implements Runnable {
         // });
 
         String sshStatementFileName = "sshStatement.epl";
+        ClassLoader classLoader = getClass().getClassLoader();
         EPCompiled sshLogCompiled = null;
         try {
             File sshFile = new File(classLoader.getResource(sshStatementFileName).getFile());
@@ -194,47 +183,31 @@ public class Engine implements Runnable {
             throw new RuntimeException(ex);
         }
 
-        //TODO Abstract this into a for each loop with resolver of listener function and statement <String,Object{String, Object}>
-        EPStatement listenerAttacheds1 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-dictionary-filter-statement");
-        listenerAttacheds1.addListener(new SshDictionaryFilterListener());
+        // TODO Abstract this into a for each loop with resolver of listener function
+        // and statement <String,Object{String, Object}>
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(), "ssh-dictionary-filter-statement")
+                .addListener(new SshDictionaryFilterListener());
 
-        EPStatement listenerAttacheds2 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-root-filter-statement");
-        listenerAttacheds2.addListener(new SshRootBasicListener());
+        runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(), "ssh-root-filter-statement")
+                .addListener(new SshRootBasicListener());
 
-        EPStatement listenerAttacheds3 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-algorithm-filter-statement");
-        listenerAttacheds3.addListener(new SshAlgorithmBasicListener());
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(), "ssh-algorithm-filter-statement")
+                .addListener(new SshAlgorithmBasicListener());
 
-        EPStatement listenerAttacheds4 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-user-filter-statement");
-        listenerAttacheds4.addListener(new SshUserBasicListener());
+        runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(), "ssh-user-filter-statement")
+                .addListener(new SshUserBasicListener());
 
-        EPStatement listenerAttacheds5 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-ip-filter-statement");
-        listenerAttacheds5.addListener(new SshIpBasicListener());
+        runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(), "ssh-ip-filter-statement")
+                .addListener(new SshIpBasicListener());
 
-        EPStatement listenerAttacheds6 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-successful-filter-statement");
-        listenerAttacheds6.addListener(new SshSuccessfulFilterListener());
+        runtime.getDeploymentService()
+                .getStatement(sshLogDeployment.getDeploymentId(), "ssh-successful-filter-statement")
+                .addListener(new SshSuccessfulFilterListener());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //#############################
-        //apache2 module, statements and listener
+        // #############################
+        // apache2 module, statements and listener
         EPCompiled apache2Compiled = null;
         try {
             File apache2File = new File(classLoader.getResource("apache2Statement.epl").getFile());
@@ -250,9 +223,9 @@ public class Engine implements Runnable {
             throw new RuntimeException(ex);
         }
 
-        EPStatement statement_apache2 = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(), "apache2-log-404");
+        EPStatement statement_apache2 = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(),
+                "apache2-log-404");
         statement_apache2.addListener(new Apache2BaseListener());
-
 
     }
 }

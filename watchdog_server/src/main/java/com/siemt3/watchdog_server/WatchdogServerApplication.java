@@ -11,6 +11,8 @@ Description:
 
 --*/
 import com.siemt3.watchdog_server.cep.Engine;
+import com.siemt3.watchdog_server.condb.DataBase;
+import com.siemt3.watchdog_server.condb.UpdateThreshold;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -20,6 +22,7 @@ public class WatchdogServerApplication {
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(WatchdogServerApplication.class, args);
 		Engine.main();
+		UpdateThreshold.main();
 	}
 
 }
