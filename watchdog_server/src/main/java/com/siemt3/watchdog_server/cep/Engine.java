@@ -27,6 +27,7 @@ import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 
+import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshAlgorithmBasicListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshRootBasicListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshUserBasicListener;
@@ -100,28 +101,28 @@ public class Engine implements Runnable {
             System.out.println(String.format("GudeEvent with msg: %s", message));
         });
 
-//        String fileName = "testStatement.epl";
+        // String fileName = "testStatement.epl";
         ClassLoader classLoader = getClass().getClassLoader();
-//        EPCompiled demoLogCompiled = null;
-//        try {
-//            File file = new File(classLoader.getResource(fileName).getFile());
-//            Module module = EPCompilerProvider.getCompiler().readModule(file);
-//            demoLogCompiled = compiler.compile(module, compilerArguments);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        EPDeployment demoLogDeployment;
-//        try {
-//            demoLogDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
-//        } catch (EPDeployException ex) {
-//            // handle exception here
-//            throw new RuntimeException(ex);
-//        }
+        // EPCompiled demoLogCompiled = null;
+        // try {
+        // File file = new File(classLoader.getResource(fileName).getFile());
+        // Module module = EPCompilerProvider.getCompiler().readModule(file);
+        // demoLogCompiled = compiler.compile(module, compilerArguments);
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        //
+        // EPDeployment demoLogDeployment;
+        // try {
+        // demoLogDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
+        // } catch (EPDeployException ex) {
+        // // handle exception here
+        // throw new RuntimeException(ex);
+        // }
 
         // log listener outputs failure events
-        EPStatement demologStatement = runtime.getDeploymentService().getStatement(PEM.getInstance().globalDeployment.getDeploymentId(),
-                "demolog-statement");
+        EPStatement demologStatement = runtime.getDeploymentService()
+                .getStatement(PEM.getInstance().globalDeployment.getDeploymentId(), "demolog-statement");
         demologStatement.addListener((newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");
             try {
@@ -181,36 +182,49 @@ public class Engine implements Runnable {
             throw new RuntimeException(ex);
         }
 
-        //TODO Abstract this into a for each loop with resolver of listener function and statement <String,Object{String, Object}>
+        // TODO Abstract this into a for each loop with resolver of listener function
+        // and statement <String,Object{String, Object}>
         runtime.getDeploymentService()
-                .getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-dictionary-filter-statement")
+                .getStatement(sshLogDeployment.getDeploymentId(), "ssh-dictionary-filter-statement")
                 .addListener(new SshDictionaryFilterListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-root-filter-statement")
+        runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(), "ssh-root-filter-statement")
                 .addListener(new SshRootBasicListener());
 
         runtime.getDeploymentService()
-                .getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-algorithm-filter-statement")
+                .getStatement(sshLogDeployment.getDeploymentId(), "ssh-algorithm-filter-statement")
                 .addListener(new SshAlgorithmBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-user-filter-statement")
+        runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(), "ssh-user-filter-statement")
                 .addListener(new SshUserBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-ip-filter-statement")
+        runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(), "ssh-ip-filter-statement")
                 .addListener(new SshIpBasicListener());
 
         runtime.getDeploymentService()
-                .getStatement(sshLogDeployment.getDeploymentId(),
-                "ssh-successful-filter-statement")
+                .getStatement(sshLogDeployment.getDeploymentId(), "ssh-successful-filter-statement")
                 .addListener(new SshSuccessfulFilterListener());
+
+        // #############################
+        // apache2 module, statements and listener
+        EPCompiled apache2Compiled = null;
+        try {
+            File apache2File = new File(classLoader.getResource("apache2Statement.epl").getFile());
+            Module apache2Module = EPCompilerProvider.getCompiler().readModule(apache2File);
+            apache2Compiled = compiler.compile(apache2Module, compilerArguments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            deployment = runtime.getDeploymentService().deploy(apache2Compiled);
+        } catch (EPDeployException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        EPStatement statement_apache2 = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(),
+                "apache2-log-404");
+        statement_apache2.addListener(new Apache2BaseListener());
 
     }
 }
