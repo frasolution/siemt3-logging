@@ -41,7 +41,7 @@ public class DemologController {
             throw new Exception("bad log", e);
         }
 
-        System.out.println("controller: " + log);
+//        System.out.println("controller: " + log);
 
         // send an event bean with log
         // before we get the runtime with help of PEM

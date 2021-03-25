@@ -102,7 +102,7 @@ public class Engine implements Runnable {
         });
 
         // String fileName = "testStatement.epl";
-        ClassLoader classLoader = getClass().getClassLoader();
+//        ClassLoader classLoader = getClass().getClassLoader();
         // EPCompiled demoLogCompiled = null;
         // try {
         // File file = new File(classLoader.getResource(fileName).getFile());
@@ -165,6 +165,7 @@ public class Engine implements Runnable {
         // });
 
         String sshStatementFileName = "sshStatement.epl";
+        ClassLoader classLoader = getClass().getClassLoader();
         EPCompiled sshLogCompiled = null;
         try {
             File sshFile = new File(classLoader.getResource(sshStatementFileName).getFile());
