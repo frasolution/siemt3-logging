@@ -27,3 +27,11 @@ where not (ip like '10.%.%.%' or ip like '172.%.%.%' or ip like '192.168.%.%');
 select log, arrival_time
 from SshBaseLogEvent
 where (log like '% Accepted password for %' and not log like '% root %');
+
+create variable int ssh_dictionary_basic_count = 3;
+create variable int ssh_dictionary_basic_time = 60;
+@name('ssh-dictionary-basic-statement')
+select arrival_time, username, ip
+from SshDictionaryEvent#time(ssh_dictionary_basic_time sec)#keepall
+group by username
+having count(*) >= ssh_dictionary_basic_count;

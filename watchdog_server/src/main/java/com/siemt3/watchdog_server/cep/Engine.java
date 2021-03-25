@@ -28,11 +28,8 @@ import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshAlgorithmBasicListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshRootBasicListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshUserBasicListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.*;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshDictionaryFilterListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshIpBasicListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
 import com.siemt3.watchdog_server.condb.DataBase;
 
@@ -117,24 +114,6 @@ public class Engine implements Runnable {
         // -----------------------------------------------
 
         // -------------------SSH-------------------------
-//        String sshStatementFileName = "sshStatement.epl";
-//        ClassLoader classLoader = getClass().getClassLoader();
-//        EPCompiled sshLogCompiled = null;
-//        try {
-//            File sshFile = new File(classLoader.getResource(sshStatementFileName).getFile());
-//            Module sshModule = EPCompilerProvider.getCompiler().readModule(sshFile);
-//            sshLogCompiled = compiler.compile(sshModule, compilerArguments);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        EPDeployment sshLogDeployment;
-//        try {
-//            sshLogDeployment = runtime.getDeploymentService().deploy(sshLogCompiled);
-//        } catch (EPDeployException ex) {
-//            // handle exception here
-//            throw new RuntimeException(ex);
-//        }
         EPDeployment sshDeployment = PEM.getInstance().sshDeployment;
 
         runtime.getDeploymentService()
@@ -160,6 +139,11 @@ public class Engine implements Runnable {
         runtime.getDeploymentService()
                 .getStatement(sshDeployment.getDeploymentId(), "ssh-successful-filter-statement")
                 .addListener(new SshSuccessfulFilterListener());
+
+        runtime.getDeploymentService()
+                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-basic-statement")
+                .addListener(new SshDictionaryBasicListener());
+
 
         // #############################
         // apache2 module, statements and listener
