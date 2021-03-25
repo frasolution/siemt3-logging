@@ -23,14 +23,14 @@ const { urlBuilder } = require("./url");
  */
 async function push(message) {
     let { logtype, logobject } = await message;
-    let { jwt } = await ( await Singleton.getInstance() ).jwtoken;
-    
+    let { jwt } = await (await Singleton.getInstance()).jwtoken;
+
     const config = {
         headers: { Authorization: `Bearer ${await jwt}` }
     };
 
     let url = await urlBuilder(logtype);
-    
+
     let res = await axios.post(url, logobject, config).catch(console.log);
 
     // DO NOT REMOVE --DEV
@@ -40,7 +40,7 @@ async function push(message) {
 
 /**
  * 
- * Summary. Function to send an ssh log.
+ * Summary. Function to send a ssh log.
  * Description. This function is used as an abstraction between the component that actually sends logs
  * 
  * @function
@@ -52,8 +52,27 @@ async function push(message) {
 
 async function sshlog(log) {
     // use combined object to with logtype("endpoint") and the actual log "object"
-    let message = { logtype: "ssh", logobject: { log: log } }
+    let message = { logtype: "", logobject: { log: log } }
+    push(message);
+}
+
+/**
+ * 
+ * Summary. Function to send a apache2 log.
+ * Description. This function is used as an abstraction between the component that actually sends logs
+ * 
+ * @function
+ * 
+ * @param {object} log[] array of logs
+ * 
+ * @returns void
+ */
+
+async function apache2log(log) {
+    // use combined object to with logtype("endpoint") and the actual log "object"
+    let message = { logtype: "apache2", logobject: { log: log } }
     push(message);
 }
 
 module.exports.sshlog = sshlog;
+module.exports.apache2log = apache2log;

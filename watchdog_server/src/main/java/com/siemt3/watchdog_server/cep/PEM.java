@@ -14,6 +14,7 @@ Manager Singleton that "manages" our variables which are need to be accessed thr
 import com.espertech.esper.common.client.configuration.Configuration;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPRuntimeProvider;
+import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2LogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.GudeEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.*;
@@ -42,6 +43,11 @@ public class PEM {
         this.config.getCommon().addEventType(SshIpEvent.class);
         this.config.getCommon().addEventType(SshRootEvent.class);
         this.config.getCommon().addEventType(SshUserEvent.class);
+
+
+        //apache2
+        this.config.getCommon().addEventType(Apache2LogEvent.class);
+
 
         this.runtimeURI = "globalRuntime";
 

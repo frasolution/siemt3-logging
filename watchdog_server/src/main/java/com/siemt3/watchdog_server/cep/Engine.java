@@ -27,6 +27,7 @@ import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPStatement;
 
+import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshAlgorithmBasicListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshRootBasicListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshUserBasicListener;
@@ -99,6 +100,7 @@ public class Engine implements Runnable {
             String message = (String) newData[0].get("gude");
             System.out.println(String.format("GudeEvent with msg: %s", message));
         });
+
 
         String fileName = "testStatement.epl";
         ClassLoader classLoader = getClass().getClassLoader();
@@ -216,6 +218,41 @@ public class Engine implements Runnable {
         EPStatement listenerAttacheds6 = runtime.getDeploymentService().getStatement(sshLogDeployment.getDeploymentId(),
                 "ssh-successful-filter-statement");
         listenerAttacheds6.addListener(new SshSuccessfulFilterListener());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //#############################
+        //apache2 module, statements and listener
+        EPCompiled apache2Compiled = null;
+        try {
+            File apache2File = new File(classLoader.getResource("apache2Statement.epl").getFile());
+            Module apache2Module = EPCompilerProvider.getCompiler().readModule(apache2File);
+            apache2Compiled = compiler.compile(apache2Module, compilerArguments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            deployment = runtime.getDeploymentService().deploy(apache2Compiled);
+        } catch (EPDeployException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        EPStatement statement_apache2 = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(), "apache2-log-404");
+        statement_apache2.addListener(new Apache2BaseListener());
+
 
     }
 }

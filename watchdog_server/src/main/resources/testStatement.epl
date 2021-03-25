@@ -3,3 +3,4 @@ select sus
 from DemoLogEvent
 where sus
 like '192.168.%.%'
+
