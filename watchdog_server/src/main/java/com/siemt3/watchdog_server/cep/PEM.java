@@ -37,7 +37,8 @@ public class PEM {
     public Configuration config;
     public String runtimeURI;
     public EPRuntime runtime;
-    public EPDeployment globalDeployment;
+    public EPDeployment testDeployment;
+    public EPDeployment sshDeployment;
 
     public PEM(){
 
@@ -62,10 +63,13 @@ public class PEM {
         this.runtimeURI = "globalRuntime";
         this.runtime = EPRuntimeProvider.getRuntime(this.runtimeURI, this.config);
 
-        /////////////////////
+        //Deployments
 
+        // setup compiler
         EPCompiler compiler = EPCompilerProvider.getCompiler();
         CompilerArguments compilerArguments = new CompilerArguments(config);
+
+        //compile module test/demolog from file in res
         String fileName = "testStatement.epl";
         ClassLoader classLoader = getClass().getClassLoader();
         EPCompiled demoLogCompiled = null;
@@ -76,14 +80,27 @@ public class PEM {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        EPDeployment demoLogDeployment;
+
+        //compile module ssh from file in res
+        String sshStatementFileName = "sshStatement.epl";
+//        ClassLoader classLoader = getClass().getClassLoader();
+        EPCompiled sshLogCompiled = null;
         try {
-            globalDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
+            File sshFile = new File(classLoader.getResource(sshStatementFileName).getFile());
+            Module sshModule = EPCompilerProvider.getCompiler().readModule(sshFile);
+            sshLogCompiled = compiler.compile(sshModule, compilerArguments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Deploy compiled statements
+        try {
+            testDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
+            sshDeployment = runtime.getDeploymentService().deploy(sshLogCompiled);
         } catch (EPDeployException ex) {
             // handle exception here
             throw new RuntimeException(ex);
         }
-
     }
 
     public static PEM getInstance(){

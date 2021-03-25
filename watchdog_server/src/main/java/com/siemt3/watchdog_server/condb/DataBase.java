@@ -26,8 +26,10 @@ public class DataBase {
             ArrayList <Threshold> al = new ArrayList<Threshold>();
             while(rs.next()){
                 String name = rs.getString("name");
+                String type = rs.getString("type");
                 int number = rs.getInt("number");
-                al.add(new Threshold(name,number));
+
+                al.add(new Threshold(name, type, number));
             }
             return al;
         }catch(Exception e){
