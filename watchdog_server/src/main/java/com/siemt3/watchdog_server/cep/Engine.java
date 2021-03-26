@@ -31,6 +31,7 @@ import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.*;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshDictionaryFilterListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshDictionaryElevatedListener;
 import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
@@ -143,6 +144,10 @@ public class Engine implements Runnable {
         runtime.getDeploymentService()
                 .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-basic-statement")
                 .addListener(new SshDictionaryBasicListener());
+
+        runtime.getDeploymentService()
+                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-elevated-statement")
+                .addListener(new SshDictionaryElevatedListener());
 
 
         // #############################

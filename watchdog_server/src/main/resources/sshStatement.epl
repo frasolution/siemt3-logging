@@ -28,10 +28,16 @@ select log, arrival_time
 from SshBaseLogEvent
 where (log like '% Accepted password for %' and not log like '% root %');
 
-create variable int ssh_dictionary_basic_count = 3;
-create variable int ssh_dictionary_basic_time = 60;
+create variable int ssh_dictionary_basic_count = 5;
+create variable int ssh_dictionary_basic_time = 5;
 @name('ssh-dictionary-basic-statement')
 select arrival_time, username, ip
-from SshDictionaryEvent#time(ssh_dictionary_basic_time sec)#keepall
-group by username
+from SshDictionaryEvent#time(ssh_dictionary_basic_time minutes)#expr_batch(current_count >= ssh_dictionary_basic_count)
+group by username, ip
 having count(*) >= ssh_dictionary_basic_count;
+
+create variable int ssh_dictionary_elevated_count = 2;
+create variable int ssh_dictionary_elevated_time = 10;
+@name('ssh-dictionary-elevated-statement')
+select arrival_time, username
+from SshDictionaryElevatedEvent#time(ssh_dictionary_elevated_time minutes)#expr_batch(current_count >= ssh_dictionary_elevated_count);

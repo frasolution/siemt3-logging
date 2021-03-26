@@ -25,6 +25,7 @@ import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2LogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.GudeEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.*;
+import com.siemt3.watchdog_server.cep.event.sshEvents.elevated.SshDictionaryElevatedEvent;
 
 import java.io.File;
 
@@ -44,9 +45,11 @@ public class PEM {
 
         this.config = new Configuration();
 
+        //test
         this.config.getCommon().addEventType(GudeEvent.class);
         this.config.getCommon().addEventType(DemoLogEvent.class);
 
+        //ssh
         this.config.getCommon().addEventType(SshBaseLogEvent.class);
         this.config.getCommon().addEventType(SshAlgorithmEvent.class);
         this.config.getCommon().addEventType(SshDictionaryEvent.class);
@@ -55,6 +58,7 @@ public class PEM {
         this.config.getCommon().addEventType(SshRootEvent.class);
         this.config.getCommon().addEventType(SshUserEvent.class);
 
+        this.config.getCommon().addEventType(SshDictionaryElevatedEvent.class);
 
         //apache2
         this.config.getCommon().addEventType(Apache2LogEvent.class);
