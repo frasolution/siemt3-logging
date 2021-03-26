@@ -9,4 +9,6 @@ insert into `siem`.`thresholds` (name, type, number) values ('ssh_dictionary_bas
 insert into `siem`.`thresholds` (name, type, number) values ('ssh_dictionary_basic_time', 'ssh', 5);
 insert into `siem`.`thresholds` (name, type, number) values ('ssh_dictionary_elevated_count', 'ssh', 2);
 insert into `siem`.`thresholds` (name, type, number) values ('ssh_dictionary_elevated_time', 'ssh', 10);
+insert into `siem`.`thresholds` (name, type, number) values ('ssh_root_elevated_count', 'ssh', 2);
+insert into `siem`.`thresholds` (name, type, number) values ('ssh_root_elevated_time', 'ssh', 1);
 SELECT * FROM `siem`.`thresholds`;

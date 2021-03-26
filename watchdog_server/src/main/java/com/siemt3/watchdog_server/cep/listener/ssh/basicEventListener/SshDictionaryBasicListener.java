@@ -14,13 +14,19 @@ import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SshDictionaryBasicListener implements UpdateListener {
     @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         long arrival_time   =   DataBase.current_time();
         String username     =   (String)    newEvents[0].get("username");
-        String ip           =   (String)    newEvents[0].get("ip");
+
+        ArrayList<String> ip = new ArrayList<String>();
+
+        for (EventBean newEvent : newEvents) {
+            ip.add((String) newEvent.get("ip"));
+        }
 
         System.out.println(arrival_time + username + ip);
         //TODO get old data to have an ip collection
@@ -41,7 +47,7 @@ public class SshDictionaryBasicListener implements UpdateListener {
         }
 
         runtime.getEventService().sendEventBean(
-                new SshDictionaryElevatedEvent(arrival_time, username),
+                new SshDictionaryElevatedEvent(arrival_time, username, ip),
                 "SshDictionaryElevatedEvent"
         );
 

@@ -1,10 +1,12 @@
 package com.siemt3.watchdog_server.cep.customObjects.ssh;
 
+import java.util.ArrayList;
+
 public class SshBasicPassword {
     String username;
-    String ip;
+    ArrayList<String> ip;
 
-    public SshBasicPassword(String username, String ip) {
+    public SshBasicPassword(String username, ArrayList<String> ip) {
         this.username = username;
         this.ip = ip;
     }
@@ -17,11 +19,11 @@ public class SshBasicPassword {
         this.username = username;
     }
 
-    public String getIp() {
+    public ArrayList<String> getIp() {
         return ip;
     }
 
-    public void setIp(String ip) {
+    public void setIp(ArrayList<String> ip) {
         this.ip = ip;
     }
 }
