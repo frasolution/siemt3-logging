@@ -28,8 +28,7 @@ public class SshDictionaryBasicListener implements UpdateListener {
             ip.add((String) newEvent.get("ip"));
         }
 
-        System.out.println(arrival_time + username + ip);
-        //TODO get old data to have an ip collection
+//        System.out.println(arrival_time + username + ip);
 
         SshBasicPassword sshBasicPassword = new SshBasicPassword(username, ip);
         String custom_data = SshCommonMethods.toJson(sshBasicPassword);

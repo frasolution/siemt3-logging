@@ -25,20 +25,6 @@ public class SshDictionaryFilterListener implements UpdateListener {
 //        verified parsing
 //        System.out.println(username + ip);
 
-//        SshBasicPassword sshBasicPassword = new SshBasicPassword(username, ip);
-//        String custom_data = SshCommonMethods.toJson(sshBasicPassword);
-//        Alert alert = new Alert()
-//                .setEventType(EventType.SSH)
-//                .setEventName(EventName.SSH_Dictionary)
-//                .setPriority(Severity.YELLOW)
-//                .setUnix_time(DataBase.current_time())
-//                .setCustomData(custom_data);
-//        try {
-//            DataBase.dbCommit(alert);
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-
         runtime.getEventService().sendEventBean(
                 new SshDictionaryEvent(
                         arrival_time,

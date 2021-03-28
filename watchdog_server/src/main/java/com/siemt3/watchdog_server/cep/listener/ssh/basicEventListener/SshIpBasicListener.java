@@ -30,7 +30,7 @@ public class SshIpBasicListener implements UpdateListener {
 
         String hostname = SshCommonMethods.getHostname(log);
 
-        System.out.println(ip + username + hostname);
+//        System.out.println(ip + username + hostname);
 
         SshBasicIp sshBasicIp = new SshBasicIp(hostname, username, ip);
         String custom_data = SshCommonMethods.toJson(sshBasicIp);

@@ -30,7 +30,7 @@ public class SshDictionaryElevatedListener implements UpdateListener {
             al.add(new SshDictionaryElevatedEvent(arrival_timee, username, ip));
         }
         String custom_data = SshCommonMethods.toJson(al);
-        System.out.println(custom_data);
+//        System.out.println(custom_data);
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
                 .setEventName(EventName.SSH_DictionaryE)
