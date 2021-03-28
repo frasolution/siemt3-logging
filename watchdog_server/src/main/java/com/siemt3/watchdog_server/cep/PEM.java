@@ -51,7 +51,6 @@ public class PEM {
 
         //ssh
         this.config.getCommon().addEventType(SshBaseLogEvent.class);
-        this.config.getCommon().addEventType(SshAlgorithmEvent.class);
         this.config.getCommon().addEventType(SshDictionaryEvent.class);
         this.config.getCommon().addEventType(SshIpFilterEvent.class);
         this.config.getCommon().addEventType(SshIpEvent.class);

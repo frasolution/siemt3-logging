@@ -149,6 +149,9 @@ public class Engine implements Runnable {
                 .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-elevated-statement")
                 .addListener(new SshDictionaryElevatedListener());
 
+        runtime.getDeploymentService()
+                .getStatement(sshDeployment.getDeploymentId(), "ssh-root-elevated-statement")
+                .addListener(new SshRootElevatedListener());
 
         // #############################
         // apache2 module, statements and listener

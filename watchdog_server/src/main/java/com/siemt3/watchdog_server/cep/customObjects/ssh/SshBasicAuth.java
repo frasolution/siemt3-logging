@@ -2,14 +2,12 @@ package com.siemt3.watchdog_server.cep.customObjects.ssh;
 
 public class SshBasicAuth {
     String username;
-    String algorithm;
-    String fingerprint;
+    String algo_fingerprint;
     String ip;
 
-    public SshBasicAuth(String username, String algorithm, String fingerprint, String ip) {
+    public SshBasicAuth(String username, String algo_fingerprint, String ip) {
         this.username = username;
-        this.algorithm = algorithm;
-        this.fingerprint = fingerprint;
+        this.algo_fingerprint = algo_fingerprint;
         this.ip = ip;
     }
 
@@ -21,20 +19,12 @@ public class SshBasicAuth {
         this.username = username;
     }
 
-    public String getAlgorithm() {
-        return algorithm;
+    public String getAlgo_fingerprint() {
+        return algo_fingerprint;
     }
 
-    public void setAlgorithm(String algorithm) {
-        this.algorithm = algorithm;
-    }
-
-    public String getFingerprint() {
-        return fingerprint;
-    }
-
-    public void setFingerprint(String fingerprint) {
-        this.fingerprint = fingerprint;
+    public void setAlgo_fingerprint(String algo_fingerprint) {
+        this.algo_fingerprint = algo_fingerprint;
     }
 
     public String getIp() {
