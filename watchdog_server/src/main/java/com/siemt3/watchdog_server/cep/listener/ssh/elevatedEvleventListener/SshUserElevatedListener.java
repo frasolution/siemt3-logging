@@ -8,6 +8,7 @@ import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
 import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicUser;
+import com.siemt3.watchdog_server.cep.event.sshEvents.SshUserEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
@@ -19,12 +20,13 @@ public class SshUserElevatedListener implements UpdateListener {
     @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         long arrival_time = DataBase.current_time();
-        ArrayList<SshBasicUser> al = new ArrayList<SshBasicUser>();
+        ArrayList<SshUserEvent> al = new ArrayList<SshUserEvent>();
 
         for (EventBean newEvent : newEvents) {
+            long arrival_timee = (long) newEvent.get("arrival_time");
             String username = (String) newEvent.get("username");
             String ip = (String) newEvent.get("ip");
-            al.add(new SshBasicUser(username, ip));
+            al.add(new SshUserEvent(arrival_timee, username, ip));
         }
 
         String custom_data = SshCommonMethods.toJson(al);
