@@ -61,5 +61,11 @@ from SshUserEvent
 #time(ssh_user_elevated_time minutes)
 #expr_batch(current_count >= ssh_user_elevated_count);
 
-
+create variable int ssh_ip_elevated_count = 2;
+create variable int ssh_ip_elevated_time = 60;
+@name('ssh-ip-elevated-statement')
+select arrival_time, ip, hostname, username
+from SshIpEvent
+#time(ssh_ip_elevated_time minutes)
+#expr_batch(current_count >= ssh_ip_elevated_count);
 
