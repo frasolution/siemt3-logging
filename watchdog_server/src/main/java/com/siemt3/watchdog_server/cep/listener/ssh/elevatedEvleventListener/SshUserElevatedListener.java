@@ -30,7 +30,7 @@ public class SshUserElevatedListener implements UpdateListener {
         String custom_data = SshCommonMethods.toJson(al);
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
-                .setEventName(EventName.SSH_Algorithm)
+                .setEventName(EventName.SSH_UserE)
                 .setUnix_time(arrival_time)
                 .setPriority(Severity.RED)
                 .setCustomData(custom_data);
