@@ -28,6 +28,7 @@ public class SshUserElevatedListener implements UpdateListener {
         }
 
         String custom_data = SshCommonMethods.toJson(al);
+//        System.out.println(custom_data);
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
                 .setEventName(EventName.SSH_UserE)

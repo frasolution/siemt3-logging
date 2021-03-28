@@ -33,6 +33,7 @@ import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshD
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshDictionaryElevatedListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshRootElevatedListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshUserElevatedListener;
 import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
@@ -156,7 +157,7 @@ public class Engine implements Runnable {
 
         runtime.getDeploymentService()
                 .getStatement(sshDeployment.getDeploymentId(), "ssh-user-elevated-statement")
-                .addListener(new SshRootElevatedListener());
+                .addListener(new SshUserElevatedListener());
 
         // #############################
         // apache2 module, statements and listener
