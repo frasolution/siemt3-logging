@@ -15,6 +15,8 @@ import com.siemt3.watchdog_server.model.Alert;
 
 import java.sql.SQLException;
 
+import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
+
 public class SshRootBasicListener implements UpdateListener {
     @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
@@ -30,6 +32,11 @@ public class SshRootBasicListener implements UpdateListener {
 
         SshBasicRoot sshBasicRoot = new SshBasicRoot(ip);
         String custom_data = SshCommonMethods.toJson(sshBasicRoot);
+
+        if (DEBUG_FLAG) {
+            System.out.println(EventName.SSH_Root + " : " + custom_data);
+        }
+
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
                 .setEventName(EventName.SSH_Root)

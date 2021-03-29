@@ -8,12 +8,15 @@ import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
 import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicUser;
+import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpFilterEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SshUserEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
 
 import java.sql.SQLException;
+
+import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
 
 public class SshUserBasicListener implements UpdateListener {
     @Override
@@ -33,6 +36,11 @@ public class SshUserBasicListener implements UpdateListener {
 
         SshBasicUser sshBasicUser = new SshBasicUser(username, ip);
         String custom_data = SshCommonMethods.toJson(sshBasicUser);
+
+        if (DEBUG_FLAG) {
+            System.out.println(EventName.SSH_User + " : " + custom_data);
+        }
+
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
                 .setEventName(EventName.SSH_User)
@@ -50,6 +58,16 @@ public class SshUserBasicListener implements UpdateListener {
         runtime.getEventService().sendEventBean(
                 new SshUserEvent(arrival_time, username, ip),
                 "SshUserEvent"
+        );
+
+        runtime.getEventService().sendEventBean(
+                new SshIpFilterEvent(
+                        arrival_time,
+                        ip,
+                        log,
+                        username
+                ),
+                "SshIpFilterEvent"
         );
 
     }

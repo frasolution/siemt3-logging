@@ -12,6 +12,7 @@ import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpFilterEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
+import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
 
 import java.sql.SQLException;
 
@@ -20,7 +21,6 @@ public class SshAlgorithmBasicListener implements UpdateListener {
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         String log = (String) newEvents[0].get("log");
         long arrival_time = (long) newEvents[0].get("arrival_time");
-//        System.out.println(log + " @3 " + arrival_time );
         String username, algo_fingerprint, ip ;
         String[] a1, a2, a3, a4, a5;
 
@@ -34,12 +34,16 @@ public class SshAlgorithmBasicListener implements UpdateListener {
         username = a2[0];
         //do not parse further since this part can vary depending on algorithm
         algo_fingerprint = a3[1];
-//        System.out.println(a3[1]);
         ip = a5[0];
 
         if (algo_fingerprint.contains("DSA ")) {
             SshBasicAuth sshBasicAuth = new SshBasicAuth(username, algo_fingerprint, ip);
             String custom_data = SshCommonMethods.toJson(sshBasicAuth);
+
+            if (DEBUG_FLAG) {
+                System.out.println(EventName.SSH_Algorithm + " : " + custom_data);
+            }
+
             Alert alert = new Alert()
                     .setEventType(EventType.SSH)
                     .setEventName(EventName.SSH_Algorithm)

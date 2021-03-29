@@ -16,6 +16,8 @@ import com.siemt3.watchdog_server.model.Alert;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
+
 public class SshUserElevatedListener implements UpdateListener {
     @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
@@ -30,7 +32,11 @@ public class SshUserElevatedListener implements UpdateListener {
         }
 
         String custom_data = SshCommonMethods.toJson(al);
-//        System.out.println(custom_data);
+
+        if (DEBUG_FLAG) {
+            System.out.println(EventName.SSH_UserE + " : " + custom_data);
+        }
+
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
                 .setEventName(EventName.SSH_UserE)
