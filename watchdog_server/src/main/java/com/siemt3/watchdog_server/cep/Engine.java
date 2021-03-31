@@ -107,11 +107,6 @@ public class Engine implements Runnable {
                 .getStatement(PEM.getInstance().testDeployment.getDeploymentId(), "demolog-statement");
         demologStatement.addListener((newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");
-            try {
-                DataBase.dbCommit(message);
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
-            }
             System.out.println(message);
         });
 
