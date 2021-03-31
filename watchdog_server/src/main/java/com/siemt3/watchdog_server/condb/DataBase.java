@@ -54,10 +54,19 @@ public class DataBase {
         String password = "Asdfasdf6634";
         try {
             Connection myConn = DriverManager.getConnection(url, user, password);
-            Statement myStatement = myConn.createStatement();
+            String ps = "insert into alerts (event_type, event_name, priority, custom_data, date) values ( ? , ? , ? , ?, FROM_UNIXTIME(?) )";
+            PreparedStatement myPreparedStatement = myConn.prepareStatement(ps);
+            myPreparedStatement.setString(1, eventType);
+            myPreparedStatement.setString(2, eventName);
+            myPreparedStatement.setInt(3, priority);
+            myPreparedStatement.setString(4, customData);
+            myPreparedStatement.setLong(5, unix_time);
+            myPreparedStatement.executeUpdate();
+
+//            Statement myStatement = myConn.createStatement();
             //TODO make prepared statement
             //errors like alerts can and column names can be ignored here because intelij does not read the data source properly
-            myStatement.executeUpdate("insert into alerts (event_type, event_name, priority, custom_data, date) values ('"+eventType+"','"+eventName+"', "+priority+" , '" + customData + "', FROM_UNIXTIME(" + unix_time + ") )");
+//            myStatement.executeUpdate("insert into alerts (event_type, event_name, priority, custom_data, date) values ('"+eventType+"','"+eventName+"', "+priority+" , '" + customData + "', FROM_UNIXTIME(" + unix_time + ") )");
         }catch (SQLException e){
             e.printStackTrace();
         }
