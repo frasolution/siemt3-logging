@@ -22,10 +22,7 @@ import com.espertech.esper.compiler.client.CompilerArguments;
 import com.espertech.esper.compiler.client.EPCompileException;
 import com.espertech.esper.compiler.client.EPCompiler;
 import com.espertech.esper.compiler.client.EPCompilerProvider;
-import com.espertech.esper.runtime.client.EPDeployException;
-import com.espertech.esper.runtime.client.EPDeployment;
-import com.espertech.esper.runtime.client.EPRuntime;
-import com.espertech.esper.runtime.client.EPStatement;
+import com.espertech.esper.runtime.client.*;
 
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.*;
@@ -115,9 +112,11 @@ public class Engine implements Runnable {
         // -------------------SSH-------------------------
         EPDeployment sshDeployment = PEM.getInstance().sshDeployment;
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-filter-statement")
-                .addListener(new SshDictionaryFilterListener());
+        attacher( sshDeployment, "ssh-dictionary-filter-statement" , new SshDictionaryFilterListener());
+
+//        runtime.getDeploymentService()
+//                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-filter-statement")
+//                .addListener(new SshDictionaryFilterListener());
 
         runtime.getDeploymentService()
                 .getStatement(sshDeployment.getDeploymentId(), "ssh-root-filter-statement")
@@ -183,4 +182,13 @@ public class Engine implements Runnable {
         statement_apache2.addListener(new Apache2BaseListener());
 
     }
+
+    private void attacher(EPDeployment epDeployment, String statement, UpdateListener listener){
+        PEM.getInstance().runtime
+                .getDeploymentService()
+                .getStatement(epDeployment.getDeploymentId(), statement)
+                .addListener(listener);
+
+    }
+
 }
