@@ -23,7 +23,6 @@ public class SshUserBasicListener implements UpdateListener {
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         String log = (String) newEvents[0].get("log");
         long arrival_time = (long) newEvents[0].get("arrival_time");
-//        System.out.println(log + " @4 " + arrival_time);
         String username, ip;
         String[] a1, a2, a3, a4;
         //TODO fix statements for user with spaces
@@ -52,8 +51,6 @@ public class SshUserBasicListener implements UpdateListener {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-//        System.out.println(username + ip);
 
         runtime.getEventService().sendEventBean(
                 new SshUserEvent(arrival_time, username, ip),

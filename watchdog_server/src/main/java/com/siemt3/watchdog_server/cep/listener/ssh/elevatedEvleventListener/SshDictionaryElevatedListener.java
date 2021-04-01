@@ -31,6 +31,7 @@ public class SshDictionaryElevatedListener implements UpdateListener {
             ArrayList<String> ip = (ArrayList<String>) newEvent.get("ip");
             al.add(new SshDictionaryElevatedEvent(arrival_timee, username, ip));
         }
+
         String custom_data = SshCommonMethods.toJson(al);
 
         if (DEBUG_FLAG) {

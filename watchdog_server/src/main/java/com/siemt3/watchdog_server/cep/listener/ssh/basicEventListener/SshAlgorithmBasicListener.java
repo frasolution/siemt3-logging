@@ -22,19 +22,19 @@ public class SshAlgorithmBasicListener implements UpdateListener {
         String log = (String) newEvents[0].get("log");
         long arrival_time = (long) newEvents[0].get("arrival_time");
         String username, algo_fingerprint, ip ;
-        String[] a1, a2, a3, a4, a5;
+        String[] a1, a2, a3, a4;
 
         //TODO fix when user is called from, ssh2:
 
         a1 = log.split(" publickey for ");
         a2 = a1[1].split(" from ");
         a3 = a2[1].split(" ssh2: ");
-        a5 = a2[1].split(" port ");
+        a4 = a2[1].split(" port ");
 
         username = a2[0];
         //do not parse further since this part can vary depending on algorithm
         algo_fingerprint = a3[1];
-        ip = a5[0];
+        ip = a4[0];
 
         if (algo_fingerprint.contains("DSA ")) {
             SshBasicAuth sshBasicAuth = new SshBasicAuth(username, algo_fingerprint, ip);

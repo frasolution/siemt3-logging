@@ -11,9 +11,7 @@ import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
 import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicIp;
-import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicRoot;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpEvent;
-import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpFilterEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
@@ -31,8 +29,6 @@ public class SshIpBasicListener implements UpdateListener {
         String username = (String) newEvents[0].get("username");
 
         String hostname = SshCommonMethods.getHostname(log);
-
-//        System.out.println(ip + username + hostname);
 
         SshBasicIp sshBasicIp = new SshBasicIp(hostname, username, ip);
         String custom_data = SshCommonMethods.toJson(sshBasicIp);

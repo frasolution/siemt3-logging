@@ -11,7 +11,6 @@ public class SshSuccessfulFilterListener implements UpdateListener {
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         String log = (String) newEvents[0].get("log");
         long arrival_time = (long) newEvents[0].get("arrival_time");
-//        System.out.println(log + " @1 " + arrival_time);
 
         String username, ip;
         String[] a1, a2, a3;
@@ -24,8 +23,6 @@ public class SshSuccessfulFilterListener implements UpdateListener {
         username = a2[0];
         a3 =  a2[1].split(" port ");
         ip = a3[0];
-
-//        System.out.println(ip + "succ");
 
         runtime.getEventService().sendEventBean(
                 new SshIpFilterEvent(

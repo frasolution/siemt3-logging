@@ -12,7 +12,6 @@ public class SshDictionaryFilterListener implements UpdateListener {
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         String log = (String) newEvents[0].get("log");
         long arrival_time = (long) newEvents[0].get("arrival_time");
-//        System.out.println(log + " @1 " + arrival_time);
 
         String username, ip;
 
@@ -21,9 +20,6 @@ public class SshDictionaryFilterListener implements UpdateListener {
         username = tmp_a2[0];
         String[] tmp_a3 =  tmp_a2[1].split(" port ");
         ip = tmp_a3[0];
-
-//        verified parsing
-//        System.out.println(username + ip);
 
         runtime.getEventService().sendEventBean(
                 new SshDictionaryEvent(

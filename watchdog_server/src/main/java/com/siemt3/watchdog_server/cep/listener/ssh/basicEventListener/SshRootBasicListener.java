@@ -26,9 +26,6 @@ public class SshRootBasicListener implements UpdateListener {
         String[] a1 = log.split(" for root from ");
         String[] a2 = a1[1].split(" port ");
         ip = a2[0];
-        //verified parse!
-
-//        System.out.println(ip + "root");
 
         SshBasicRoot sshBasicRoot = new SshBasicRoot(ip);
         String custom_data = SshCommonMethods.toJson(sshBasicRoot);

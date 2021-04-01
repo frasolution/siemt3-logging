@@ -7,7 +7,6 @@ import com.espertech.esper.runtime.client.UpdateListener;
 import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
-import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicUser;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SshUserEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
