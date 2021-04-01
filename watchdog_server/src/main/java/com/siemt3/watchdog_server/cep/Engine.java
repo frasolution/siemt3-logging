@@ -112,51 +112,27 @@ public class Engine implements Runnable {
         // -------------------SSH-------------------------
         EPDeployment sshDeployment = PEM.getInstance().sshDeployment;
 
-        attacher( sshDeployment, "ssh-dictionary-filter-statement" , new SshDictionaryFilterListener());
+        attacher( sshDeployment,"ssh-dictionary-filter-statement"   , new SshDictionaryFilterListener());
 
-//        runtime.getDeploymentService()
-//                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-filter-statement")
-//                .addListener(new SshDictionaryFilterListener());
+        attacher( sshDeployment,"ssh-root-filter-statement"         , new SshRootBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-root-filter-statement")
-                .addListener(new SshRootBasicListener());
+        attacher( sshDeployment,"ssh-algorithm-filter-statement"    , new SshAlgorithmBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-algorithm-filter-statement")
-                .addListener(new SshAlgorithmBasicListener());
+        attacher( sshDeployment,"ssh-user-filter-statement"         , new SshUserBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-user-filter-statement")
-                .addListener(new SshUserBasicListener());
+        attacher( sshDeployment,"ssh-ip-filter-statement"           , new SshIpBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-ip-filter-statement")
-                .addListener(new SshIpBasicListener());
+        attacher( sshDeployment,"ssh-successful-filter-statement"   , new SshSuccessfulFilterListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-successful-filter-statement")
-                .addListener(new SshSuccessfulFilterListener());
+        attacher( sshDeployment,"ssh-dictionary-basic-statement"    , new SshDictionaryBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-basic-statement")
-                .addListener(new SshDictionaryBasicListener());
+        attacher( sshDeployment,"ssh-dictionary-elevated-statement" , new SshDictionaryElevatedListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-elevated-statement")
-                .addListener(new SshDictionaryElevatedListener());
+        attacher( sshDeployment,"ssh-root-elevated-statement"       , new SshRootElevatedListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-root-elevated-statement")
-                .addListener(new SshRootElevatedListener());
+        attacher( sshDeployment,"ssh-user-elevated-statement"       , new SshUserElevatedListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-user-elevated-statement")
-                .addListener(new SshUserElevatedListener());
-
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-ip-elevated-statement")
-                .addListener(new SshIpElevatedListener());
+        attacher( sshDeployment,"ssh-ip-elevated-statement"         , new SshIpElevatedListener());
 
         // #############################
         // apache2 module, statements and listener
