@@ -1,0 +1,119 @@
+
+
+
+
+//basic 404 event
+//for testing puropses
+@name('apache2-log-404')
+select "log404" as eventName, log
+from Apache2AccessLogEvent
+where status = "404";
+
+
+
+//basic warn event
+//single events can also split out to have individual tresholds and priority
+
+        create variable int var_prio_warn = 1;
+        create variable int var_time_warn = 1;
+        create variable int var_num_events_warn = 3;
+
+@name('apache2-basic-warning')
+select "apache2" as eventType,
+        "basic-warning" as eventName,
+        var_prio_warn as priority,
+        status || request || query as customData
+        from Apache2AccessLogEvent
+        #time(var_time_warn minutes)
+        #expr_batch(current_count >= var_num_events_warn)
+        where status in ("400", "401", "403", "404");
+
+
+
+//alert 404 for single ip
+        create variable int var_prio_404_same_ip = 2;
+        create variable int var_time_404_same_ip = 1;
+        create variable int var_num_events_same_ip = 3;
+
+@name('apache2-alert-404-single-ip')
+select "apache2" as eventType,
+        "alert404-single-ip" as eventName,
+        var_prio_404_same_ip as priority,
+        ip,
+        ip || request as customData
+        from Apache2AccessLogEvent
+        #time(var_time_404_same_ip minutes)
+        #expr_batch(current_count >= var_num_events_same_ip)
+        where status = "404"
+        group by ip;
+
+
+
+//alert 404 for different ip
+        create variable int var_prio_404_mult_ip = 2;
+        create variable int var_time_404_mult_ip = 1;
+        create variable int var_num_events_mult_ip = 10;
+
+@name('apache2-alert-404-mult-ip')
+select "apache2" as eventType,
+        "alert404-mult-ip" as eventName,
+        var_prio_404_mult_ip as priority,
+        request as customData
+        from Apache2AccessLogEvent
+        #time(var_time_404_mult_ip minutes)
+        #expr_batch(current_count >= var_num_events_mult_ip)
+        where status = "404";
+
+
+
+
+
+//basic ssl error
+        create variable int var_prio_ssl_error = 3;
+        create variable int var_time_ssl_error = 1;
+        create variable int var_num_events_ssl_error = 2;
+
+@name('apache2-ssl-error')
+select "apache2" as eventType,
+        "ssl-error" as eventName,
+        var_prio_ssl_error as priority,
+        message as customData
+        from Apache2ErrorLogEvent
+        #time(var_time_ssl_error minutes)
+        #expr_batch(current_count >= var_num_events_ssl_error)
+        where function = "[ssl:error]";
+
+
+
+
+
+
+//named windwos or table or whatever to join event streams
+
+
+////basic 401 event
+//        create table log401(time string primary key, eventName string, ip string, log string);
+//@name('apache2-log-401')
+//        into log401
+//        select time, "log401" as eventName, ip, log
+//        from Apache2AccessLogEvent#time(5 minutes)
+//        where status = "401";
+//
+//
+////basic 403 event
+//        create table log403(time string primary key, eventName string, ip string, log string);
+//@name('apache2-log-403')
+//        into log403
+//        select time, "log403" as eventName, ip, log
+//        from Apache2AccessLogEvent#time(5 minutes)
+//        where status = "403";
+//
+//
+//
+////basic join event
+//@name('apache2-join-401-403')
+//select "401-403" as eventName,
+//        log401.ip as ip,
+//        log401.log as log
+//        from log401#time(5 minutes), log403#time(5 minutes)
+//where log401.ip = log403.ip;
