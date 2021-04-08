@@ -1,0 +1,13 @@
+
+//basic 404 event
+create schema log404(eventName string, log string);
+@name('apache2-log-404')
+insert into log404
+        select "log404" as eventName, log
+        from Apache2AccessLogEvent;
+
+
+
+
+
+
