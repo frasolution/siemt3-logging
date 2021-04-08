@@ -1,8 +1,0 @@
-create variable int test_count = 2;
-@name('demolog-statement')
-select sus
-from DemoLogEvent
-where sus
-like '192.168.%.%'
-group by sus
-having count(*) >= test_count;
