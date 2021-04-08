@@ -27,3 +27,45 @@ where not (ip like '10.%.%.%' or ip like '172.%.%.%' or ip like '192.168.%.%');
 select log, arrival_time
 from SshBaseLogEvent
 where (log like '% Accepted password for %' and not log like '% root %');
+
+create variable int ssh_dictionary_basic_count = 5;
+create variable int ssh_dictionary_basic_time = 5;
+@name('ssh-dictionary-basic-statement')
+select arrival_time, username, ip
+from SshDictionaryEvent
+#groupwin(username)
+#time(ssh_dictionary_basic_time minutes)
+#expr_batch(current_count >= ssh_dictionary_basic_count);
+
+create variable int ssh_dictionary_elevated_count = 2;
+create variable int ssh_dictionary_elevated_time = 2;
+@name('ssh-dictionary-elevated-statement')
+select arrival_time, username, ip
+from SshDictionaryElevatedEvent
+#time(ssh_dictionary_elevated_time minutes)
+#expr_batch(current_count >= ssh_dictionary_elevated_count);
+
+create variable int ssh_root_elevated_count = 2;
+create variable int ssh_root_elevated_time = 1;
+@name('ssh-root-elevated-statement')
+select arrival_time, ip
+from SshRootEvent
+#time(ssh_root_elevated_time minutes)
+#expr_batch(current_count >= ssh_root_elevated_count);
+
+create variable int ssh_user_elevated_count = 2;
+create variable int ssh_user_elevated_time = 1;
+@name('ssh-user-elevated-statement')
+select arrival_time, username, ip
+from SshUserEvent
+#time(ssh_user_elevated_time minutes)
+#expr_batch(current_count >= ssh_user_elevated_count);
+
+create variable int ssh_ip_elevated_count = 2;
+create variable int ssh_ip_elevated_time = 60;
+@name('ssh-ip-elevated-statement')
+select arrival_time, ip, hostname, username
+from SshIpEvent
+#time(ssh_ip_elevated_time minutes)
+#expr_batch(current_count >= ssh_ip_elevated_count);
+

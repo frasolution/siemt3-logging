@@ -1,4 +1,4 @@
-package com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener;
+package com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener;
 
 import com.espertech.esper.common.client.EventBean;
 import com.espertech.esper.runtime.client.EPRuntime;
@@ -7,48 +7,45 @@ import com.espertech.esper.runtime.client.UpdateListener;
 import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
-import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicRoot;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SshRootEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
 
-public class SshRootBasicListener implements UpdateListener {
+public class SshRootElevatedListener implements UpdateListener {
+
+
     @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
-        String log = (String) newEvents[0].get("log");
-        long arrival_time = (long) newEvents[0].get("arrival_time");
-        String ip;
-        String[] a1 = log.split(" for root from ");
-        String[] a2 = a1[1].split(" port ");
-        ip = a2[0];
+        long arrival_time = DataBase.current_time();
+        ArrayList<SshRootEvent> al = new ArrayList<SshRootEvent>();
 
-        SshBasicRoot sshBasicRoot = new SshBasicRoot(ip);
-        String custom_data = SshCommonMethods.toJson(sshBasicRoot);
+        for (EventBean newEvent : newEvents) {
+            long arrival_timee = (long) newEvent.get("arrival_time");
+            String ip = (String) newEvent.get("ip");
+            al.add(new SshRootEvent(arrival_timee, ip));
+        }
+        String custom_data = SshCommonMethods.toJson(al);
 
         if (DEBUG_FLAG) {
-            System.out.println(EventName.SSH_Root + " : " + custom_data);
+            System.out.println(EventName.SSH_RootE + " : " + custom_data);
         }
 
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
-                .setEventName(EventName.SSH_Root)
+                .setEventName(EventName.SSH_RootE)
                 .setUnix_time(arrival_time)
-                .setPriority(Severity.GREEN)
+                .setPriority(Severity.YELLOW)
                 .setCustomData(custom_data);
         try {
             DataBase.dbCommit(alert);
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
         }
-
-        runtime.getEventService().sendEventBean(
-                new SshRootEvent(arrival_time,ip), "SshRootEvent"
-        );
-
     }
 }

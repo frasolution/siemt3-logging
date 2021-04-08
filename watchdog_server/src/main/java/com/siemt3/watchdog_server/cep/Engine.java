@@ -22,18 +22,16 @@ import com.espertech.esper.compiler.client.CompilerArguments;
 import com.espertech.esper.compiler.client.EPCompileException;
 import com.espertech.esper.compiler.client.EPCompiler;
 import com.espertech.esper.compiler.client.EPCompilerProvider;
-import com.espertech.esper.runtime.client.EPDeployException;
-import com.espertech.esper.runtime.client.EPDeployment;
-import com.espertech.esper.runtime.client.EPRuntime;
-import com.espertech.esper.runtime.client.EPStatement;
+import com.espertech.esper.runtime.client.*;
 
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshAlgorithmBasicListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshRootBasicListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshUserBasicListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.*;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshDictionaryFilterListener;
-import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.SshIpBasicListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshDictionaryElevatedListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshIpElevatedListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshRootElevatedListener;
+import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshUserElevatedListener;
 import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
@@ -106,60 +104,35 @@ public class Engine implements Runnable {
                 .getStatement(PEM.getInstance().testDeployment.getDeploymentId(), "demolog-statement");
         demologStatement.addListener((newData, oldData, statementx, runtimex) -> {
             String message = (String) newData[0].get("sus");
-            try {
-                DataBase.dbCommit(message);
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
-            }
             System.out.println(message);
         });
 
         // -----------------------------------------------
 
         // -------------------SSH-------------------------
-//        String sshStatementFileName = "sshStatement.epl";
-//        ClassLoader classLoader = getClass().getClassLoader();
-//        EPCompiled sshLogCompiled = null;
-//        try {
-//            File sshFile = new File(classLoader.getResource(sshStatementFileName).getFile());
-//            Module sshModule = EPCompilerProvider.getCompiler().readModule(sshFile);
-//            sshLogCompiled = compiler.compile(sshModule, compilerArguments);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        EPDeployment sshLogDeployment;
-//        try {
-//            sshLogDeployment = runtime.getDeploymentService().deploy(sshLogCompiled);
-//        } catch (EPDeployException ex) {
-//            // handle exception here
-//            throw new RuntimeException(ex);
-//        }
         EPDeployment sshDeployment = PEM.getInstance().sshDeployment;
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-dictionary-filter-statement")
-                .addListener(new SshDictionaryFilterListener());
+        attacher( sshDeployment,"ssh-dictionary-filter-statement"   , new SshDictionaryFilterListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-root-filter-statement")
-                .addListener(new SshRootBasicListener());
+        attacher( sshDeployment,"ssh-root-filter-statement"         , new SshRootBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-algorithm-filter-statement")
-                .addListener(new SshAlgorithmBasicListener());
+        attacher( sshDeployment,"ssh-algorithm-filter-statement"    , new SshAlgorithmBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-user-filter-statement")
-                .addListener(new SshUserBasicListener());
+        attacher( sshDeployment,"ssh-user-filter-statement"         , new SshUserBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-ip-filter-statement")
-                .addListener(new SshIpBasicListener());
+        attacher( sshDeployment,"ssh-ip-filter-statement"           , new SshIpBasicListener());
 
-        runtime.getDeploymentService()
-                .getStatement(sshDeployment.getDeploymentId(), "ssh-successful-filter-statement")
-                .addListener(new SshSuccessfulFilterListener());
+        attacher( sshDeployment,"ssh-successful-filter-statement"   , new SshSuccessfulFilterListener());
+
+        attacher( sshDeployment,"ssh-dictionary-basic-statement"    , new SshDictionaryBasicListener());
+
+        attacher( sshDeployment,"ssh-dictionary-elevated-statement" , new SshDictionaryElevatedListener());
+
+        attacher( sshDeployment,"ssh-root-elevated-statement"       , new SshRootElevatedListener());
+
+        attacher( sshDeployment,"ssh-user-elevated-statement"       , new SshUserElevatedListener());
+
+        attacher( sshDeployment,"ssh-ip-elevated-statement"         , new SshIpElevatedListener());
 
         // #############################
         // apache2 module, statements and listener
@@ -185,4 +158,13 @@ public class Engine implements Runnable {
         statement_apache2.addListener(new Apache2BaseListener());
 
     }
+
+    private void attacher(EPDeployment epDeployment, String statement, UpdateListener listener){
+        PEM.getInstance().runtime
+                .getDeploymentService()
+                .getStatement(epDeployment.getDeploymentId(), statement)
+                .addListener(listener);
+
+    }
+
 }

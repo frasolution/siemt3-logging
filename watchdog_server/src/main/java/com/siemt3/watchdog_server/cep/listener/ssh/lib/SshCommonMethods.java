@@ -3,6 +3,7 @@ package com.siemt3.watchdog_server.cep.listener.ssh.lib;
 import com.google.gson.Gson;
 
 public class SshCommonMethods {
+    
     public static String getHostname(String log){
         String hostname;
         String[] a6;
