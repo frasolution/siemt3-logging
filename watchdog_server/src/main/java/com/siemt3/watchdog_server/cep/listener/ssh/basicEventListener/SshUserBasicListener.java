@@ -8,7 +8,6 @@ import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
 import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicUser;
-import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpFilterEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SshUserEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
@@ -16,13 +15,12 @@ import com.siemt3.watchdog_server.model.Alert;
 
 import java.sql.SQLException;
 
-import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
-
 public class SshUserBasicListener implements UpdateListener {
     @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         String log = (String) newEvents[0].get("log");
         long arrival_time = (long) newEvents[0].get("arrival_time");
+        System.out.println(log + " @4 " + arrival_time);
         String username, ip;
         String[] a1, a2, a3, a4;
         //TODO fix statements for user with spaces
@@ -35,11 +33,6 @@ public class SshUserBasicListener implements UpdateListener {
 
         SshBasicUser sshBasicUser = new SshBasicUser(username, ip);
         String custom_data = SshCommonMethods.toJson(sshBasicUser);
-
-        if (DEBUG_FLAG) {
-            System.out.println(EventName.SSH_User + " : " + custom_data);
-        }
-
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
                 .setEventName(EventName.SSH_User)
@@ -52,19 +45,11 @@ public class SshUserBasicListener implements UpdateListener {
             throwables.printStackTrace();
         }
 
+//        System.out.println(username + ip);
+
         runtime.getEventService().sendEventBean(
                 new SshUserEvent(arrival_time, username, ip),
                 "SshUserEvent"
-        );
-
-        runtime.getEventService().sendEventBean(
-                new SshIpFilterEvent(
-                        arrival_time,
-                        ip,
-                        log,
-                        username
-                ),
-                "SshIpFilterEvent"
         );
 
     }

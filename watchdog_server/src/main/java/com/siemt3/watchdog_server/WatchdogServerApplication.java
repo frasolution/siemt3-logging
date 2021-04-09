@@ -22,7 +22,7 @@ public class WatchdogServerApplication {
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(WatchdogServerApplication.class, args);
 		Engine.main();
-		UpdateThreshold.main();
+		//UpdateThreshold.main();
 	}
 
 }

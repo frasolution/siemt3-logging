@@ -9,8 +9,7 @@ import com.siemt3.watchdog_server.model.Threshold;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class UpdateThreshold implements Runnable {
     public UpdateThreshold(){}
@@ -60,11 +59,7 @@ public class UpdateThreshold implements Runnable {
             DeploymentIdNamePair deploymentIdNamePairCount = new DeploymentIdNamePair(localDeployment.getDeploymentId(), name );
             Map<DeploymentIdNamePair, Object> map = new HashMap<DeploymentIdNamePair,Object>();
             map.put(deploymentIdNamePairCount, count);
-
-            if (DEBUG_FLAG) {
-                System.out.println(count + name);
-            }
-
+            System.out.println(count + name);
             PEM.getInstance().runtime.getVariableService().setVariableValue(map);
         });
         Thread.sleep(GlobalVariables.DBUPDATECYCLE);

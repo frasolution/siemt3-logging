@@ -2,7 +2,8 @@ package com.siemt3.watchdog_server.controller;
 
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.siemt3.watchdog_server.cep.PEM;
-import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2LogEvent;
+import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2AccessLogEvent;
+import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2ErrorLogEvent;
 import com.siemt3.watchdog_server.model.Apache2LogRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,6 @@ watchdog_server
 
 Author:
 Maximilian Medlin (Meshstyles)
-Robert Uwe Litschel
-
 --*/
 
 
@@ -45,10 +44,22 @@ public class Apache2Controller {
         // send an event bean with log
         // before we get the runtime with help of PEM
         EPRuntime runtime = PEM.getInstance().runtime;
-        runtime.getEventService().sendEventBean(
-                new Apache2LogEvent(log),
-                "Apache2LogEvent"
-        );
+
+        if (log.contains("\"log_type\" : \"access\"")) {
+            //System.out.println("controller_access: " + log);
+            runtime.getEventService().sendEventBean(
+                    new Apache2AccessLogEvent(log),
+                    "Apache2AccessLogEvent"
+            );
+        }
+
+        if (log.contains("\"log_type\" : \"error\"")) {
+            //System.out.println("controller_error: " + log);
+            runtime.getEventService().sendEventBean(
+                    new Apache2ErrorLogEvent(log),
+                    "Apache2ErrorLogEvent"
+            );
+        }
     }
 
 }

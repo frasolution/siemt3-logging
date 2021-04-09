@@ -8,8 +8,6 @@ watchdog_server
 
 Author:
 Maximilian Medlin (Meshstyles)
-Robert Uwe Litschel
-
  --*/
 
 public class Apache2LogRequest implements Serializable{

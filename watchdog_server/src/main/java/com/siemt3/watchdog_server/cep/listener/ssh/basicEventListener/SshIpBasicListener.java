@@ -11,14 +11,14 @@ import com.siemt3.watchdog_server.EventName;
 import com.siemt3.watchdog_server.EventType;
 import com.siemt3.watchdog_server.Severity;
 import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicIp;
+import com.siemt3.watchdog_server.cep.customObjects.ssh.SshBasicRoot;
 import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpEvent;
+import com.siemt3.watchdog_server.cep.event.sshEvents.SshIpFilterEvent;
 import com.siemt3.watchdog_server.cep.listener.ssh.lib.SshCommonMethods;
 import com.siemt3.watchdog_server.condb.DataBase;
 import com.siemt3.watchdog_server.model.Alert;
 
 import java.sql.SQLException;
-
-import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
 
 public class SshIpBasicListener implements UpdateListener {
     @Override
@@ -30,13 +30,10 @@ public class SshIpBasicListener implements UpdateListener {
 
         String hostname = SshCommonMethods.getHostname(log);
 
+        System.out.println(ip + username + hostname);
+
         SshBasicIp sshBasicIp = new SshBasicIp(hostname, username, ip);
         String custom_data = SshCommonMethods.toJson(sshBasicIp);
-
-        if (DEBUG_FLAG) {
-            System.out.println(EventName.SSH_Ip + " : " + custom_data);
-        }
-
         Alert alert = new Alert()
                 .setEventType(EventType.SSH)
                 .setEventName(EventName.SSH_Ip)
