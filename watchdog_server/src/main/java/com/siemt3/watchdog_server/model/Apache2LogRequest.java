@@ -12,7 +12,9 @@ Robert Uwe Litschel
 
  --*/
 
-public class Apache2LogRequest implements Serializable{
+//changes as submitted
+
+public class Apache2LogRequest implements Serializable {
 
     private String log;
 
@@ -24,18 +26,12 @@ public class Apache2LogRequest implements Serializable{
         this.log = log;
     }
 
-    //need default constructor for JSON Parsing
-    public Apache2LogRequest() { }
+    // need default constructor for JSON Parsing
+    public Apache2LogRequest() {
+    }
 
     public Apache2LogRequest(String log) {
         this.setLog(log);
     }
 
 }
-
-
-
-
-
-
-
