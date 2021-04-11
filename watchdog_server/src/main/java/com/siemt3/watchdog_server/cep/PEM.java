@@ -21,7 +21,8 @@ import com.espertech.esper.runtime.client.EPDeployException;
 import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPRuntimeProvider;
-import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2LogEvent;
+import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2AccessLogEvent;
+import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2ErrorLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.GudeEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.*;
@@ -58,9 +59,11 @@ public class PEM {
         this.config.getCommon().addEventType(SshUserEvent.class);
 
         this.config.getCommon().addEventType(SshDictionaryElevatedEvent.class);
+        
 
         //apache2
-        this.config.getCommon().addEventType(Apache2LogEvent.class);
+        this.config.getCommon().addEventType(Apache2AccessLogEvent.class);
+        this.config.getCommon().addEventType(Apache2ErrorLogEvent.class);
 
 
         this.runtimeURI = "globalRuntime";

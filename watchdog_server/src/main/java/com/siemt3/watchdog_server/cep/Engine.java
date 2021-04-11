@@ -18,13 +18,17 @@ Esper Engine implementation code
 import com.espertech.esper.common.client.EPCompiled;
 import com.espertech.esper.common.client.configuration.Configuration;
 import com.espertech.esper.common.client.module.Module;
+import com.espertech.esper.common.client.module.ParseException;
 import com.espertech.esper.compiler.client.CompilerArguments;
 import com.espertech.esper.compiler.client.EPCompileException;
 import com.espertech.esper.compiler.client.EPCompiler;
 import com.espertech.esper.compiler.client.EPCompilerProvider;
 import com.espertech.esper.runtime.client.*;
 
+import com.siemt3.watchdog_server.cep.listener.apache2.Apache2AlertListener;
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
+import com.siemt3.watchdog_server.cep.listener.apache2.Apache2WarnListener;
+
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.*;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshDictionaryFilterListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
@@ -35,6 +39,7 @@ import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshU
 import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class Engine implements Runnable {
@@ -112,27 +117,28 @@ public class Engine implements Runnable {
         // -------------------SSH-------------------------
         EPDeployment sshDeployment = PEM.getInstance().sshDeployment;
 
-        attacher( sshDeployment,"ssh-dictionary-filter-statement"   , new SshDictionaryFilterListener());
+        attacher(sshDeployment, "ssh-dictionary-filter-statement", new SshDictionaryFilterListener());
 
-        attacher( sshDeployment,"ssh-root-filter-statement"         , new SshRootBasicListener());
+        attacher(sshDeployment, "ssh-root-filter-statement", new SshRootBasicListener());
 
-        attacher( sshDeployment,"ssh-algorithm-filter-statement"    , new SshAlgorithmBasicListener());
+        attacher(sshDeployment, "ssh-algorithm-filter-statement", new SshAlgorithmBasicListener());
 
-        attacher( sshDeployment,"ssh-user-filter-statement"         , new SshUserBasicListener());
+        attacher(sshDeployment, "ssh-user-filter-statement", new SshUserBasicListener());
 
-        attacher( sshDeployment,"ssh-ip-filter-statement"           , new SshIpBasicListener());
+        attacher(sshDeployment, "ssh-ip-filter-statement", new SshIpBasicListener());
 
-        attacher( sshDeployment,"ssh-successful-filter-statement"   , new SshSuccessfulFilterListener());
+        attacher(sshDeployment, "ssh-successful-filter-statement", new SshSuccessfulFilterListener());
 
-        attacher( sshDeployment,"ssh-dictionary-basic-statement"    , new SshDictionaryBasicListener());
+        attacher(sshDeployment, "ssh-dictionary-basic-statement", new SshDictionaryBasicListener());
 
-        attacher( sshDeployment,"ssh-dictionary-elevated-statement" , new SshDictionaryElevatedListener());
+        attacher(sshDeployment, "ssh-dictionary-elevated-statement", new SshDictionaryElevatedListener());
 
-        attacher( sshDeployment,"ssh-root-elevated-statement"       , new SshRootElevatedListener());
+        attacher(sshDeployment, "ssh-root-elevated-statement", new SshRootElevatedListener());
 
-        attacher( sshDeployment,"ssh-user-elevated-statement"       , new SshUserElevatedListener());
+        attacher(sshDeployment, "ssh-user-elevated-statement", new SshUserElevatedListener());
 
-        attacher( sshDeployment,"ssh-ip-elevated-statement"         , new SshIpElevatedListener());
+        attacher(sshDeployment, "ssh-ip-elevated-statement", new SshIpElevatedListener());
+
 
         // #############################
         // apache2 module, statements and listener
@@ -143,8 +149,12 @@ public class Engine implements Runnable {
             File apache2File = new File(classLoader.getResource("apache2Statement.epl").getFile());
             Module apache2Module = EPCompilerProvider.getCompiler().readModule(apache2File);
             apache2Compiled = compiler.compile(apache2Module, compilerArguments);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (EPCompileException exception) {
+            System.out.println("engine: EPCompileException");
+        } catch (IOException exception) {
+            System.out.println("engine: IOException");
+        } catch (ParseException exception) {
+            System.out.println("engine: ParseException");
         }
 
         try {
@@ -153,9 +163,61 @@ public class Engine implements Runnable {
             throw new RuntimeException(ex);
         }
 
-        EPStatement statement_apache2 = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(),
-                "apache2-log-404");
-        statement_apache2.addListener(new Apache2BaseListener());
+
+        //changing variable threshold
+//        DeploymentIdNamePair var_threshold_404 = new DeploymentIdNamePair(deployment.getDeploymentId(), "var_threshold_404");
+//        Map<DeploymentIdNamePair, Object> map = new HashMap<DeploymentIdNamePair,Object>();
+//        Long thres_404 = (long) 10;
+//        map.put(var_threshold_404, thres_404);
+//        runtime.getVariableService().setVariableValue(map);
+
+
+        //basic 404 event
+        try {
+            EPStatement statement_apache2 = runtime.getDeploymentService()
+                    .getStatement(deployment.getDeploymentId(), "apache2-log-404");
+            statement_apache2.addListener(new Apache2BaseListener());
+        } catch (NullPointerException exception) {
+            System.out.println("NullPointerException: engine statement apache2-log-404");
+        }
+
+        //basic warn event
+        try {
+            EPStatement statement_apache2 = runtime.getDeploymentService()
+                    .getStatement(deployment.getDeploymentId(), "apache2-basic-warning");
+            statement_apache2.addListener(new Apache2WarnListener());
+        } catch (NullPointerException exception) {
+            System.out.println("NullPointerException: engine statement 'apache2-basic-warning'");
+        }
+
+
+        //apache2-alert-404-single-ip
+        try {
+            EPStatement statement_apache2 = runtime.getDeploymentService()
+                    .getStatement(deployment.getDeploymentId(), "apache2-alert-404-single-ip");
+            statement_apache2.addListener(new Apache2AlertListener());
+        } catch (NullPointerException exception) {
+            System.out.println("engine: NullPointerException - apache2-alert-404-single-ip");
+        }
+
+
+        //apache2-alert-404-mult-ip
+        try {
+            EPStatement statement_apache2 = runtime.getDeploymentService()
+                    .getStatement(deployment.getDeploymentId(), "apache2-alert-404-mult-ip");
+            statement_apache2.addListener(new Apache2AlertListener());
+        } catch (NullPointerException exception) {
+            System.out.println("engine: NullPointerException - apache2-alert-404-mult-ip");
+        }
+
+        //ssl event
+        try {
+            EPStatement statement_apache2 = runtime.getDeploymentService()
+                    .getStatement(deployment.getDeploymentId(), "apache2-ssl-error");
+            statement_apache2.addListener(new Apache2AlertListener());
+        } catch (NullPointerException exception) {
+            System.out.println("NullPointerException: engine statement apache2-ssl-error");
+        }
 
     }
 
