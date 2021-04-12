@@ -14,4 +14,8 @@ public class EventName {
     public static final String SSH_UserE = "SSH_User_E";
     public static final String SSH_IpE = "SSH_Ip_E";
 
+    // Port Scan
+    public static final String PORT_VERTICAL = "Port_Vertical_Scan";
+    public static final String PORT_HORIZONTAL = "Port_Horizontal_Scan";
+    public static final String PORT_BLOCK = "Port_Block_Scan";
 }
