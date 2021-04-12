@@ -4,18 +4,9 @@
 
 package com.siemt3.watchdog_server.controller;
 
-
-/*++
-Project Name:
-watchdog_server
-
-Author:
-Maximilian Medlin (Meshstyles)
---*/
-
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.siemt3.watchdog_server.cep.PEM;
-import com.siemt3.watchdog_server.cep.event.sshEvents.SshBaseLogEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortRawEvent;
 import com.siemt3.watchdog_server.model.PortScanLogRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,18 +27,28 @@ public class PortScanController {
     public void echoDemoString(@RequestBody PortScanLogRequest portScanLogRequest) throws Exception{
         // This is required to deserialize the Object
         // Can also result in a error on deserializing
-        String log;
+    	String type;
+    	String srcIp;
+    	String srcPort;
+    	String dstIp;
+    	String dstPort;
+        System.out.println("Port Scan call");
         try{
-            log = portScanLogRequest.getLog();
+        	type = portScanLogRequest.getType();
+        	srcIp = portScanLogRequest.getSrcIp();
+        	srcPort = portScanLogRequest.getSrcPort();
+        	dstIp = portScanLogRequest.getDstIp();
+        	dstPort = portScanLogRequest.getDstPort();
         }catch (Exception e){
             throw new Exception("bad log", e);
         }
         // send an event bean with log
         // before we get the runtime with help of PEM
         EPRuntime runtime = PEM.getInstance().runtime;
+        //TODO add further logic
         runtime.getEventService().sendEventBean(
-                new SshBaseLogEvent( log ),
-                "PortScanLogEvent"
+                new PortRawEvent( type, srcIp, srcPort, dstIp, dstPort ),
+                "PortScanRawEvent"
         );
     }
 
