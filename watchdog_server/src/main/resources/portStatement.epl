@@ -1,0 +1,23 @@
+@name('port-vertical-scan-statement')
+select *
+from PortRawEvent
+
+@name('port-dist-vertical-scan-statement')
+select *
+from PortRawEvent
+
+@name('port-horizontal-scan-statement')
+select *
+from PortRawEvent
+
+@name('port-dist-horizontal-scan-statement')
+select *
+from PortRawEvent
+
+@name('port-block-scan-statement')
+select *
+from PortVerticalScanEvent as pv, PortHorizontalScanEvent as ph
+
+@name('port-dist-block-scan-statement')
+select *
+from PortDistVerticalScanEvent as pv, PortDistHorizontalScanEvent
