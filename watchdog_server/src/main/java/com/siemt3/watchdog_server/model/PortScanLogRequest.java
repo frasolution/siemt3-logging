@@ -11,16 +11,16 @@ public class PortScanLogRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String type;
 	private String srcIp;
-	private String srcPort;
+	private Integer srcPort;
 	private String dstIp;
-	private String dstPort;
+	private Integer dstPort;
     /**
      * default constructor for JSON parsing
      */
     public PortScanLogRequest() { }
 	
-	public PortScanLogRequest(String type, String srcIp, String srcPort,
-			String dstIp, String dstPort) {
+	public PortScanLogRequest(String type, String srcIp, Integer srcPort,
+			String dstIp, Integer dstPort) {
 		this.type = type;
 		this.srcIp = srcIp;
 		this.dstIp = dstIp;
@@ -44,11 +44,11 @@ public class PortScanLogRequest implements Serializable {
 		this.srcIp = srcIp;
 	}
 
-	public String getSrcPort() {
+	public Integer getSrcPort() {
 		return srcPort;
 	}
 
-	public void setSrcPort(String srcPort) {
+	public void setSrcPort(Integer srcPort) {
 		this.srcPort = srcPort;
 	}
 
@@ -60,11 +60,11 @@ public class PortScanLogRequest implements Serializable {
 		this.dstIp = dstIp;
 	}
 
-	public String getDstPort() {
+	public Integer getDstPort() {
 		return dstPort;
 	}
 
-	public void setDstPort(String dstPort) {
+	public void setDstPort(Integer dstPort) {
 		this.dstPort = dstPort;
 	}
     

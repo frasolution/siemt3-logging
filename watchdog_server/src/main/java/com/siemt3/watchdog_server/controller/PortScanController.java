@@ -29,9 +29,9 @@ public class PortScanController {
         // Can also result in a error on deserializing
     	String type;
     	String srcIp;
-    	String srcPort;
+    	Integer srcPort;
     	String dstIp;
-    	String dstPort;
+    	Integer dstPort;
         System.out.println("Port Scan call");
         try{
         	type = portScanLogRequest.getType();

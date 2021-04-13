@@ -18,4 +18,7 @@ public class EventName {
     public static final String PORT_VERTICAL = "Port_Vertical_Scan";
     public static final String PORT_HORIZONTAL = "Port_Horizontal_Scan";
     public static final String PORT_BLOCK = "Port_Block_Scan";
+    public static final String PORT__DIST_VERTICAL = "Port_Dist_Vertical_Scan";
+    public static final String PORT_DIST_HORIZONTAL = "Port_Dist_Horizontal_Scan";
+    public static final String PORT_DIST_BLOCK = "Port_Dist_Block_Scan";
 }
