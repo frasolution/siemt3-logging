@@ -28,7 +28,12 @@ import com.espertech.esper.runtime.client.*;
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2AlertListener;
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2WarnListener;
-
+import com.siemt3.watchdog_server.cep.listener.port.PortBlockScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortDistBlockScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortDistHorizontalScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortDistVerticalScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortHorizontalScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortVerticalScanListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.*;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshDictionaryFilterListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
@@ -140,9 +145,20 @@ public class Engine implements Runnable {
         // -------------------Port-------------------------
 
         EPDeployment portDeployment = PEM.getInstance().portDeployment;
-        // TODO add listener
-        
 
+        attacher(portDeployment, "port-vertical-scan-statement", new PortVerticalScanListener());
+
+        attacher(portDeployment, "port-dist-vertical-scan-statement", new PortDistVerticalScanListener());
+
+        attacher(portDeployment, "port-horizontal-scan-statement", new PortHorizontalScanListener());
+
+        attacher(portDeployment, "port-dist-horizontal-scan-statement", new PortDistHorizontalScanListener());
+
+        attacher(portDeployment, "port-block-scan-statement", new PortBlockScanListener());
+        
+        attacher(portDeployment, "port-dist-block-scan-statement", new PortDistBlockScanListener());
+
+        
         // #############################
         // apache2 module, statements and listener
         EPCompiled apache2Compiled = null;
