@@ -36,11 +36,9 @@ import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshD
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshIpElevatedListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshRootElevatedListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshUserElevatedListener;
-import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class Engine implements Runnable {
     private final String runtimeURI = PEM.getInstance().runtimeURI;
@@ -139,6 +137,11 @@ public class Engine implements Runnable {
 
         attacher(sshDeployment, "ssh-ip-elevated-statement", new SshIpElevatedListener());
 
+        // -------------------Port-------------------------
+
+        EPDeployment portDeployment = PEM.getInstance().portDeployment;
+        // TODO add listener
+        
 
         // #############################
         // apache2 module, statements and listener
