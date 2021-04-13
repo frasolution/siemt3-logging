@@ -48,7 +48,7 @@ public class PortScanController {
         //TODO add further logic
         runtime.getEventService().sendEventBean(
                 new PortRawEvent( type, srcIp, srcPort, dstIp, dstPort ),
-                "PortScanRawEvent"
+                "PortRawEvent"
         );
     }
 
