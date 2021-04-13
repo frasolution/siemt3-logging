@@ -25,6 +25,13 @@ import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2AccessLogEvent;
 import com.siemt3.watchdog_server.cep.event.apache2Events.Apache2ErrorLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.DemoLogEvent;
 import com.siemt3.watchdog_server.cep.event.demoEvents.GudeEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortBlockScanEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortDistBlockScanEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortDistHorizontalScanEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortDistVerticalScanEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortHorizontalScanEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortRawEvent;
+import com.siemt3.watchdog_server.cep.event.portScanEvents.PortVerticalScanEvent;
 import com.siemt3.watchdog_server.cep.event.sshEvents.*;
 import com.siemt3.watchdog_server.cep.event.sshEvents.elevated.SshDictionaryElevatedEvent;
 
@@ -41,6 +48,7 @@ public class PEM {
     public EPRuntime runtime;
     public EPDeployment testDeployment;
     public EPDeployment sshDeployment;
+    public EPDeployment portDeployment;
 
     public PEM(){
 
@@ -59,7 +67,15 @@ public class PEM {
         this.config.getCommon().addEventType(SshUserEvent.class);
 
         this.config.getCommon().addEventType(SshDictionaryElevatedEvent.class);
-        
+
+        //port
+        this.config.getCommon().addEventType(PortRawEvent.class);
+        this.config.getCommon().addEventType(PortHorizontalScanEvent.class);
+        this.config.getCommon().addEventType(PortVerticalScanEvent.class);
+        this.config.getCommon().addEventType(PortBlockScanEvent.class);
+        this.config.getCommon().addEventType(PortDistHorizontalScanEvent.class);
+        this.config.getCommon().addEventType(PortDistVerticalScanEvent.class);
+        this.config.getCommon().addEventType(PortDistBlockScanEvent.class);
 
         //apache2
         this.config.getCommon().addEventType(Apache2AccessLogEvent.class);
@@ -98,11 +114,23 @@ public class PEM {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        String portStatemenFileName = "portStatement.epl";
+        // compile module port from file in resources
+        EPCompiled portLogCompiled = null;
+        try {
+            File portFile = new File(classLoader.getResource(portStatemenFileName).getFile());
+            Module portModule = EPCompilerProvider.getCompiler().readModule(portFile);
+            portLogCompiled = compiler.compile(portModule, compilerArguments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Deploy compiled statements
         try {
             testDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
             sshDeployment = runtime.getDeploymentService().deploy(sshLogCompiled);
+            portDeployment = runtime.getDeploymentService().deploy(portLogCompiled);
         } catch (EPDeployException ex) {
             // handle exception here
             throw new RuntimeException(ex);
