@@ -5,13 +5,15 @@
 package com.siemt3.watchdog_server.cep.event.portScanEvents;
 
 public class PortBlockScanEvent {
+	private long arrivalTime;
 	private String srcIp;
 	private Integer maxPort;
 	private Integer minPort;
 	private Integer dstIpCount;
-		
-	public PortBlockScanEvent(String srcIp, Integer maxPort, Integer minPort, Integer dstIpCount) {
+	
+	public PortBlockScanEvent(long arrivalTime, String srcIp, Integer maxPort, Integer minPort, Integer dstIpCount) {
 		super();
+		this.arrivalTime = arrivalTime;
 		this.srcIp = srcIp;
 		this.maxPort = maxPort;
 		this.minPort = minPort;
@@ -41,6 +43,14 @@ public class PortBlockScanEvent {
 	}
 	public void setDstIpCount(Integer dstIpCount) {
 		this.dstIpCount = dstIpCount;
+	}
+
+	public long getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(long arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 	
 }

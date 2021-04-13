@@ -5,12 +5,14 @@
 package com.siemt3.watchdog_server.cep.event.portScanEvents;
 
 public class PortDistHorizontalScanEvent {
+	private long arrivalTime;
 	private Integer dstPort;
 	private Integer srcIpCount;
 	private Integer dstIpCount;
 
-	public PortDistHorizontalScanEvent(Integer dstPort, Integer srcIpCount, Integer dstIpCount) {
+	public PortDistHorizontalScanEvent(long arrivalTime, Integer dstPort, Integer srcIpCount, Integer dstIpCount) {
 		super();
+		this.arrivalTime = arrivalTime;
 		this.dstPort = dstPort;
 		this.srcIpCount = srcIpCount;
 		this.dstIpCount = dstIpCount;
@@ -38,6 +40,14 @@ public class PortDistHorizontalScanEvent {
 
 	public void setDstPort(Integer dstPort) {
 		this.dstPort = dstPort;
+	}
+
+	public long getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(long arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 
 }

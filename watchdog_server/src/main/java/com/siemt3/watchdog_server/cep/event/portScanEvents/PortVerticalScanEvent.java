@@ -5,19 +5,21 @@
 package com.siemt3.watchdog_server.cep.event.portScanEvents;
 
 public class PortVerticalScanEvent {
+	private long arrivalTime;
 	private String srcIp;
 	private String dstIp;
-	private Integer maxPort;
 	private Integer minPort;
-		
-	public PortVerticalScanEvent(String srcIp, String dstIp, Integer maxPort, Integer minPort) {
+	private Integer maxPort;
+	
+	public PortVerticalScanEvent(long arrivalTime, String srcIp, String dstIp, Integer minPort, Integer maxPort) {
 		super();
+		this.arrivalTime = arrivalTime;
 		this.srcIp = srcIp;
 		this.dstIp = dstIp;
-		this.maxPort = maxPort;
 		this.minPort = minPort;
+		this.maxPort = maxPort;
 	}
-	
+
 	public Integer getMinPort() {
 		return minPort;
 	}
@@ -41,6 +43,14 @@ public class PortVerticalScanEvent {
 	}
 	public void setDstIp(String dstIp) {
 		this.dstIp = dstIp;
+	}
+
+	public long getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(long arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 
 }
