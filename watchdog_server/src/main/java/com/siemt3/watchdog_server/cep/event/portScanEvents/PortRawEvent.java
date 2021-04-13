@@ -14,7 +14,7 @@ public class PortRawEvent {
 
 	public PortRawEvent(String type, String srcIp, Integer srcPort, String dstIp, Integer dstPort) {
 		super();
-		this.arrivalTime = (long)(System.currentTimeMillis() / 1000);
+		this.arrivalTime = (long) (System.currentTimeMillis() / 1000);
 		this.type = type;
 		this.srcIp = srcIp;
 		this.srcPort = srcPort;

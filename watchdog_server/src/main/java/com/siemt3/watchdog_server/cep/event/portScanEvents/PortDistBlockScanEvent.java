@@ -24,7 +24,7 @@ public class PortDistBlockScanEvent {
 	public Integer getMinPort() {
 		return minPort;
 	}
-	
+
 	public void setMinPort(Integer minPort) {
 		this.minPort = minPort;
 	}
@@ -59,5 +59,5 @@ public class PortDistBlockScanEvent {
 
 	public void setArrivalTime(long arrivalTime) {
 		this.arrivalTime = arrivalTime;
-	}	
+	}
 }

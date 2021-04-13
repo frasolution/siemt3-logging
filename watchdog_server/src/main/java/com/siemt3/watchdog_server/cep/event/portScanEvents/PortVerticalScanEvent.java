@@ -10,7 +10,7 @@ public class PortVerticalScanEvent {
 	private String dstIp;
 	private Integer minPort;
 	private Integer maxPort;
-	
+
 	public PortVerticalScanEvent(long arrivalTime, String srcIp, String dstIp, Integer minPort, Integer maxPort) {
 		super();
 		this.arrivalTime = arrivalTime;
@@ -23,24 +23,31 @@ public class PortVerticalScanEvent {
 	public Integer getMinPort() {
 		return minPort;
 	}
+
 	public void setMinPort(Integer minPort) {
 		this.minPort = minPort;
 	}
+
 	public Integer getMaxPort() {
 		return maxPort;
 	}
+
 	public void setMaxPort(Integer maxPort) {
 		this.maxPort = maxPort;
 	}
+
 	public String getSrcIp() {
 		return srcIp;
 	}
+
 	public void setSrcIp(String srcIp) {
 		this.srcIp = srcIp;
 	}
+
 	public String getDstIp() {
 		return dstIp;
 	}
+
 	public void setDstIp(String dstIp) {
 		this.dstIp = dstIp;
 	}
