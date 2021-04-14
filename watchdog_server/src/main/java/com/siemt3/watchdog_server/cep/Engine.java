@@ -28,7 +28,12 @@ import com.espertech.esper.runtime.client.*;
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2AlertListener;
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2BaseListener;
 import com.siemt3.watchdog_server.cep.listener.apache2.Apache2WarnListener;
-
+import com.siemt3.watchdog_server.cep.listener.port.PortBlockScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortDistBlockScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortDistHorizontalScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortDistVerticalScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortHorizontalScanListener;
+import com.siemt3.watchdog_server.cep.listener.port.PortVerticalScanListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicEventListener.*;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshDictionaryFilterListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.basicFilterEventListener.SshSuccessfulFilterListener;
@@ -36,11 +41,9 @@ import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshD
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshIpElevatedListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshRootElevatedListener;
 import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshUserElevatedListener;
-import com.siemt3.watchdog_server.condb.DataBase;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class Engine implements Runnable {
     private final String runtimeURI = PEM.getInstance().runtimeURI;
@@ -139,7 +142,23 @@ public class Engine implements Runnable {
 
         attacher(sshDeployment, "ssh-ip-elevated-statement", new SshIpElevatedListener());
 
+        // -------------------Port-------------------------
 
+        EPDeployment portDeployment = PEM.getInstance().portDeployment;
+
+        attacher(portDeployment, "port-vertical-scan-statement", new PortVerticalScanListener());
+
+        attacher(portDeployment, "port-dist-vertical-scan-statement", new PortDistVerticalScanListener());
+
+        attacher(portDeployment, "port-horizontal-scan-statement", new PortHorizontalScanListener());
+
+        attacher(portDeployment, "port-dist-horizontal-scan-statement", new PortDistHorizontalScanListener());
+
+        attacher(portDeployment, "port-block-scan-statement", new PortBlockScanListener());
+        
+        attacher(portDeployment, "port-dist-block-scan-statement", new PortDistBlockScanListener());
+
+        
         // #############################
         // apache2 module, statements and listener
         EPCompiled apache2Compiled = null;

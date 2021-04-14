@@ -42,8 +42,6 @@ public class DataBase {
         int priority = alert.getPriority();
         String customData = alert.getCustomData();
 
-        //TODO make sessions
-
         try {
             Connection myConn = DriverManager.getConnection(URL, USER, PASSWORD);
             String ps = "insert into alerts (event_type, event_name, priority, custom_data, date) values ( ? , ? , ? , ?, FROM_UNIXTIME(?) )";

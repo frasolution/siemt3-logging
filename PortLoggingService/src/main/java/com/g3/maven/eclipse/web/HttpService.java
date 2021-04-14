@@ -62,7 +62,6 @@ public class HttpService {
     }
     
     public String sendPortLog(PortScanLogRequest payload) throws Exception {
-        System.out.println("tst");
     	if (authStatus != AuthServiceStatus.AUTHORIZED) {
     		authorize();
     	}
