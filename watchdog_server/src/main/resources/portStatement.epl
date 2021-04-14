@@ -1,31 +1,40 @@
 @name('port-vertical-scan-statement')
-select *
+select arrivalTime, srcIp, dstIp, min(dstPort) as minPort, max(dstPort) as maxPort 
+//from PortRawEvent.win:time(30 sec)
 from PortRawEvent
+group by srcIp, dstIp
+having count(dstPort) > 2
 ;
 
 @name('port-dist-vertical-scan-statement')
-select *
+select max(arrivalTime) as arrivalTime, dstIp, min(dstPort) as minPort, max(dstPort) as maxPort, count(srcIp) as srcIpCount
 from PortRawEvent
+group by dstIp
+having count(srcIp) > 2 AND count(dstPort) > 2
 ;
 
 @name('port-horizontal-scan-statement')
-select *
+select max(arrivalTime) as arrivalTime, srcIp, dstPort, count(dstIp) as dstIpCount
 from PortRawEvent
+group by srcIp, dstPort
+having count(dstIp) > 2
 ;
 
 @name('port-dist-horizontal-scan-statement')
-select *
+select max(arrivalTime) as arrivalTime, dstPort, count(srcIp) as srcIpCount, count(dstIp) as dstIpCount
 from PortRawEvent
+group by dstPort
+having count(srcIp) > 2 AND count(dstIp) > 2
 ;
 
 @name('port-block-scan-statement')
-select *
-from PortVerticalScanEvent
+select max(arrivalTime) as arrivalTime 
+from PortVerticalScanEvent where (1=2)
 //from PortVerticalScanEvent as pv, PortHorizontalScanEvent as ph
 ;
 
 @name('port-dist-block-scan-statement')
-select *
-from PortDistVerticalScanEvent
+select max(arrivalTime) as arrivalTime 
+from PortDistVerticalScanEvent where (1=2)
 //from PortDistVerticalScanEvent as pv, PortDistHorizontalScanEvent
 ;
