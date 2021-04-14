@@ -26,8 +26,8 @@ public class PortHorizontalScanListener implements UpdateListener {
 
 		long arrivalTime = (long) newEvents[0].get("arrivalTime");
 		String srcIp = (String) newEvents[0].get("srcIp");
-		Integer dstPort = (Integer) newEvents[0].get("dstPort");
-		Integer dstIpCount = (Integer) newEvents[0].get("dstIpCount");
+		Integer dstPort = (int) newEvents[0].get("dstPort");
+		Integer dstIpCount = (int) (long) newEvents[0].get("dstIpCount");
 
 		PortHorizontalScanEvent portHorizontal = new PortHorizontalScanEvent(arrivalTime, srcIp, dstPort, dstIpCount);
 		String custom_data = SshCommonMethods.toJson(portHorizontal);

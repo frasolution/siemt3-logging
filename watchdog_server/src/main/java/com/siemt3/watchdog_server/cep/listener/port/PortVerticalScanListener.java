@@ -23,11 +23,11 @@ import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
 public class PortVerticalScanListener implements UpdateListener {
 	@Override
 	public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
-		Long arrivalTime = (long) newEvents[0].get("arrivalTime");
+		long arrivalTime = (long) newEvents[0].get("arrivalTime");
 		String srcIp = (String) newEvents[0].get("srcIp");
 		String dstIp = (String) newEvents[0].get("dstIp");
-		Integer minPort = (Integer) newEvents[0].get("minPort");
-		Integer maxPort = (Integer) newEvents[0].get("maxPort");
+		Integer minPort = (int) newEvents[0].get("minPort");
+		Integer maxPort = (int) newEvents[0].get("maxPort");
 
 		PortVerticalScanEvent portVertical = new PortVerticalScanEvent(arrivalTime, srcIp, dstIp, minPort, maxPort);
 		String custom_data = SshCommonMethods.toJson(portVertical);

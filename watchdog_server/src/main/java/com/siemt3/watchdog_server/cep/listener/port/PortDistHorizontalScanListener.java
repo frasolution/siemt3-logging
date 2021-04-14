@@ -24,9 +24,9 @@ public class PortDistHorizontalScanListener implements UpdateListener {
 	@Override
 	public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
 		long arrivalTime = (long) newEvents[0].get("arrivalTime");
-		Integer dstPort = (Integer) newEvents[0].get("dstPort");
-		Integer srcIpCount = (Integer) newEvents[0].get("srcIpCount");
-		Integer dstIpCount = (Integer) newEvents[0].get("dstIpCount");
+		Integer dstPort = (int) newEvents[0].get("dstPort");
+		Integer srcIpCount = (int) (long) newEvents[0].get("srcIpCount");
+		Integer dstIpCount = (int) (long) newEvents[0].get("dstIpCount");
 
 		PortDistHorizontalScanEvent portDistHorizontal = new PortDistHorizontalScanEvent(arrivalTime, dstPort, srcIpCount,
 				dstIpCount);

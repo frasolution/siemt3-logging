@@ -24,10 +24,10 @@ public class PortDistBlockScanListener implements UpdateListener {
 	@Override
 	public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
 		long arrivalTime = (long) newEvents[0].get("arrivalTime");
-		Integer maxPort = (Integer) newEvents[0].get("maxPort");
-		Integer minPort = (Integer) newEvents[0].get("minPort");
-		Integer dstIpCount = (Integer) newEvents[0].get("dstIpCount");
-		Integer srcIpCount = (Integer) newEvents[0].get("srcIpCount");
+		Integer maxPort = (int) newEvents[0].get("maxPort");
+		Integer minPort = (int) newEvents[0].get("minPort");
+		Integer dstIpCount = (int) (long) newEvents[0].get("dstIpCount");
+		Integer srcIpCount = (int) (long) newEvents[0].get("srcIpCount");
 
 		PortDistBlockScanEvent portDistBlock = new PortDistBlockScanEvent(arrivalTime, maxPort, minPort, dstIpCount,
 				srcIpCount);
