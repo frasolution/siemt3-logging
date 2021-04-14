@@ -17,21 +17,13 @@ public class PortHorizontalScanEvent {
 		this.dstPort = dstPort;
 		this.dstIpCount = dstIpCount;
 	}
-
-	public Integer getDstPort() {
-		return dstPort;
+	
+	public long getArrivalTime() {
+		return arrivalTime;
 	}
 
-	public void setPort(Integer dstPort) {
-		this.dstPort = dstPort;
-	}
-
-	public Integer getDstAdrCount() {
-		return dstIpCount;
-	}
-
-	public void setDstIpCount(Integer dstIpCount) {
-		this.dstIpCount = dstIpCount;
+	public void setArrivalTime(long arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 
 	public String getSrcIp() {
@@ -42,11 +34,19 @@ public class PortHorizontalScanEvent {
 		this.srcIp = srcIp;
 	}
 
-	public long getArrivalTime() {
-		return arrivalTime;
+	public Integer getDstPort() {
+		return dstPort;
 	}
 
-	public void setArrivalTime(long arrivalTime) {
-		this.arrivalTime = arrivalTime;
+	public void setDstPort(Integer dstPort) {
+		this.dstPort = dstPort;
+	}
+
+	public Integer getDstIpCount() {
+		return dstIpCount;
+	}
+
+	public void setDstIpCount(Integer dstIpCount) {
+		this.dstIpCount = dstIpCount;
 	}
 }

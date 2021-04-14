@@ -8,6 +8,9 @@ import com.espertech.esper.runtime.client.EPRuntime;
 import com.siemt3.watchdog_server.cep.PEM;
 import com.siemt3.watchdog_server.cep.event.portScanEvents.PortRawEvent;
 import com.siemt3.watchdog_server.model.PortScanLogRequest;
+
+import static com.siemt3.watchdog_server.GlobalVariables.DEBUG_FLAG;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +35,8 @@ public class PortScanController {
     	Integer srcPort;
     	String dstIp;
     	Integer dstPort;
-        System.out.println("Port Scan call");
+		if (DEBUG_FLAG)
+			System.out.println("Port Scan call");
         try{
         	type = portScanLogRequest.getType();
         	srcIp = portScanLogRequest.getSrcIp();

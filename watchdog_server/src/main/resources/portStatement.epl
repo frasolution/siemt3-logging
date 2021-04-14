@@ -3,38 +3,41 @@ select arrivalTime, srcIp, dstIp, min(dstPort) as minPort, max(dstPort) as maxPo
 //from PortRawEvent.win:time(30 sec)
 from PortRawEvent
 group by srcIp, dstIp
-having count(dstPort) > 2
+having count(DISTINCT dstPort) > 2
 ;
 
 @name('port-dist-vertical-scan-statement')
-select max(arrivalTime) as arrivalTime, dstIp, min(dstPort) as minPort, max(dstPort) as maxPort, count(srcIp) as srcIpCount
+select max(arrivalTime) as arrivalTime, dstIp, min(dstPort) as minPort, max(dstPort) as maxPort, count(DISTINCT srcIp) as srcIpCount
 from PortRawEvent
 group by dstIp
-having count(srcIp) > 2 AND count(dstPort) > 2
+having count(DISTINCT srcIp) > 2 AND count(DISTINCT dstPort) > 2
 ;
 
 @name('port-horizontal-scan-statement')
-select max(arrivalTime) as arrivalTime, srcIp, dstPort, count(dstIp) as dstIpCount
+select max(arrivalTime) as arrivalTime, srcIp, dstPort, count(DISTINCT dstIp) as dstIpCount
 from PortRawEvent
 group by srcIp, dstPort
-having count(dstIp) > 2
+having count(DISTINCT dstIp) > 2
 ;
 
 @name('port-dist-horizontal-scan-statement')
-select max(arrivalTime) as arrivalTime, dstPort, count(srcIp) as srcIpCount, count(dstIp) as dstIpCount
+select max(arrivalTime) as arrivalTime, dstPort, count(DISTINCT srcIp) as srcIpCount, count(DISTINCT dstIp) as dstIpCount
 from PortRawEvent
 group by dstPort
-having count(srcIp) > 2 AND count(dstIp) > 2
+having count(DISTINCT srcIp) > 2 AND count(DISTINCT dstIp) > 2
 ;
 
 @name('port-block-scan-statement')
-select max(arrivalTime) as arrivalTime 
-from PortVerticalScanEvent where (1=2)
-//from PortVerticalScanEvent as pv, PortHorizontalScanEvent as ph
+select max(pvs.arrivalTime) as arrivalTime, pvs.srcIp as srcIp, 
+pvs.minPort as minPort, pvs.maxPort as maxPort,
+phs.dstIpCount as dstIpCount
+from PortVerticalScanEvent.win:time(10) AS pvs, PortHorizontalScanEvent.win:time(1) AS phs
+where pvs.srcIp = phs.srcIp
 ;
 
 @name('port-dist-block-scan-statement')
-select max(arrivalTime) as arrivalTime 
-from PortDistVerticalScanEvent where (1=2)
-//from PortDistVerticalScanEvent as pv, PortDistHorizontalScanEvent
+select pvs.maxPort as maxPort, pvs.minPort as minPort, 
+phs.dstIpCount as dstIpCount, phs.srcIpCount as srcIpCount
+from PortDistVerticalScanEvent.win:time(10) as pvs, PortDistHorizontalScanEvent.win:time(10) as phs
+where phs.srcIpCount > 0 AND pvs.maxPort > 0
 ;

@@ -28,7 +28,7 @@ public class PortBlockScanListener implements UpdateListener {
 		String srcIp = (String) newEvents[0].get("srcIp");
 		Integer maxPort = (int) newEvents[0].get("maxPort");
 		Integer minPort = (int) newEvents[0].get("minPort");
-		Integer dstIpCount = (int) (long) newEvents[0].get("dstIpCount");
+		Integer dstIpCount = (int) newEvents[0].get("dstIpCount");
 
 		PortBlockScanEvent portBlock = new PortBlockScanEvent(arrivalTime, srcIp, maxPort, minPort, dstIpCount);
 		String custom_data = SshCommonMethods.toJson(portBlock);
