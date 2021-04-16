@@ -137,93 +137,82 @@ public class Engine{
         attacher(portDeployment, "port-dist-block-scan-statement", new PortDistBlockScanListener());
 
         
-        // #############################
-        // apache2 module, statements and listener
-        EPCompiled apache2Compiled = null;
-        ClassLoader classLoader = Engine.class.getClassLoader();
-
-        try {
-            File apache2File = new File(classLoader.getResource("apache2Statement.epl").getFile());
-            Module apache2Module = EPCompilerProvider.getCompiler().readModule(apache2File);
-            apache2Compiled = compiler.compile(apache2Module, compilerArguments);
-        } catch (EPCompileException exception) {
-            System.out.println("engine: EPCompileException");
-        } catch (IOException exception) {
-            System.out.println("engine: IOException");
-        } catch (ParseException exception) {
-            System.out.println("engine: ParseException");
-        }
-
-        try {
-            deployment = runtime.getDeploymentService().deploy(apache2Compiled);
-        } catch (EPDeployException ex) {
-            throw new RuntimeException(ex);
-        }
-
-
-        //changing variable threshold
-//        DeploymentIdNamePair var_threshold_404 = new DeploymentIdNamePair(deployment.getDeploymentId(), "var_threshold_404");
-//        Map<DeploymentIdNamePair, Object> map = new HashMap<DeploymentIdNamePair,Object>();
-//        Long thres_404 = (long) 10;
-//        map.put(var_threshold_404, thres_404);
-//        runtime.getVariableService().setVariableValue(map);
-
+        // ------------------apache2-----------------------
+        EPDeployment apache2Deployment = PEM.getInstance().apache2Deployment;
 
         //basic 404 event
-        try {
-            EPStatement statement_apache2 = runtime.getDeploymentService()
-                    .getStatement(deployment.getDeploymentId(), "apache2-log-404");
-            statement_apache2.addListener(new Apache2BaseListener());
-        } catch (NullPointerException exception) {
-            System.out.println("NullPointerException: engine statement apache2-log-404");
-        }
+        attacher(apache2Deployment, "apache2-log-404" , new Apache2BaseListener() );
 
         //basic warn event
-        try {
-            EPStatement statement_apache2 = runtime.getDeploymentService()
-                    .getStatement(deployment.getDeploymentId(), "apache2-basic-warning");
-            statement_apache2.addListener(new Apache2WarnListener());
-        } catch (NullPointerException exception) {
-            System.out.println("NullPointerException: engine statement 'apache2-basic-warning'");
-        }
-
+        attacher(apache2Deployment, "apache2-basic-warning", new Apache2WarnListener());
 
         //apache2-alert-404-single-ip
-        try {
-            EPStatement statement_apache2 = runtime.getDeploymentService()
-                    .getStatement(deployment.getDeploymentId(), "apache2-alert-404-single-ip");
-            statement_apache2.addListener(new Apache2AlertListener());
-        } catch (NullPointerException exception) {
-            System.out.println("engine: NullPointerException - apache2-alert-404-single-ip");
-        }
-
+        attacher(apache2Deployment, "apache2-alert-404-single-ip", new Apache2AlertListener());
 
         //apache2-alert-404-mult-ip
-        try {
-            EPStatement statement_apache2 = runtime.getDeploymentService()
-                    .getStatement(deployment.getDeploymentId(), "apache2-alert-404-mult-ip");
-            statement_apache2.addListener(new Apache2AlertListener());
-        } catch (NullPointerException exception) {
-            System.out.println("engine: NullPointerException - apache2-alert-404-mult-ip");
-        }
+        attacher(apache2Deployment, "apache2-alert-404-mult-ip", new Apache2AlertListener());
 
         //ssl event
-        try {
-            EPStatement statement_apache2 = runtime.getDeploymentService()
-                    .getStatement(deployment.getDeploymentId(), "apache2-ssl-error");
-            statement_apache2.addListener(new Apache2AlertListener());
-        } catch (NullPointerException exception) {
-            System.out.println("NullPointerException: engine statement apache2-ssl-error");
-        }
+        attacher(apache2Deployment, "apache2-ssl-error", new Apache2AlertListener() );
+
+//        //basic 404 event
+//        try {
+//            EPStatement statement_apache2 = runtime.getDeploymentService()
+//                    .getStatement(deployment.getDeploymentId(), "apache2-log-404");
+//            statement_apache2.addListener(new Apache2BaseListener());
+//        } catch (NullPointerException exception) {
+//            System.out.println("NullPointerException: engine statement apache2-log-404");
+//        }
+//
+//        //basic warn event
+//        try {
+//            EPStatement statement_apache2 = runtime.getDeploymentService()
+//                    .getStatement(deployment.getDeploymentId(), "apache2-basic-warning");
+//            statement_apache2.addListener(new Apache2WarnListener());
+//        } catch (NullPointerException exception) {
+//            System.out.println("NullPointerException: engine statement 'apache2-basic-warning'");
+//        }
+//
+//
+//        //apache2-alert-404-single-ip
+//        try {
+//            EPStatement statement_apache2 = runtime.getDeploymentService()
+//                    .getStatement(deployment.getDeploymentId(), "apache2-alert-404-single-ip");
+//            statement_apache2.addListener(new Apache2AlertListener());
+//        } catch (NullPointerException exception) {
+//            System.out.println("engine: NullPointerException - apache2-alert-404-single-ip");
+//        }
+//
+//
+//        //apache2-alert-404-mult-ip
+//        try {
+//            EPStatement statement_apache2 = runtime.getDeploymentService()
+//                    .getStatement(deployment.getDeploymentId(), "apache2-alert-404-mult-ip");
+//            statement_apache2.addListener(new Apache2AlertListener());
+//        } catch (NullPointerException exception) {
+//            System.out.println("engine: NullPointerException - apache2-alert-404-mult-ip");
+//        }
+//
+//        //ssl event
+//        try {
+//            EPStatement statement_apache2 = runtime.getDeploymentService()
+//                    .getStatement(deployment.getDeploymentId(), "apache2-ssl-error");
+//            statement_apache2.addListener(new Apache2AlertListener());
+//        } catch (NullPointerException exception) {
+//            System.out.println("NullPointerException: engine statement apache2-ssl-error");
+//        }
 
     }
 
     private static void attacher(EPDeployment epDeployment, String statement, UpdateListener listener){
-        PEM.getInstance().runtime
-                .getDeploymentService()
-                .getStatement(epDeployment.getDeploymentId(), statement)
-                .addListener(listener);
-
+        try{
+            PEM.getInstance().runtime
+                    .getDeploymentService()
+                    .getStatement(epDeployment.getDeploymentId(), statement)
+                    .addListener(listener);
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
     }
 
 }

@@ -49,6 +49,7 @@ public class PEM {
     public EPDeployment testDeployment;
     public EPDeployment sshDeployment;
     public EPDeployment portDeployment;
+    public EPDeployment apache2Deployment;
 
     public PEM(){
 
@@ -115,13 +116,23 @@ public class PEM {
             e.printStackTrace();
         }
         
-        String portStatemenFileName = "portStatement.epl";
+        String portStatementFileName = "portStatement.epl";
         // compile module port from file in resources
         EPCompiled portLogCompiled = null;
         try {
-            File portFile = new File(classLoader.getResource(portStatemenFileName).getFile());
+            File portFile = new File(classLoader.getResource(portStatementFileName).getFile());
             Module portModule = EPCompilerProvider.getCompiler().readModule(portFile);
             portLogCompiled = compiler.compile(portModule, compilerArguments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String apache2StatementFileName = "apache2Statement.epl";
+        EPCompiled apache2Compiled = null;
+        try{
+            File apache2File = new File(classLoader.getResource(apache2StatementFileName).getFile());
+            Module apache2Module = EPCompilerProvider.getCompiler().readModule(apache2File);
+            apache2Compiled = compiler.compile(apache2Module, compilerArguments);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,6 +142,7 @@ public class PEM {
             testDeployment = runtime.getDeploymentService().deploy(demoLogCompiled);
             sshDeployment = runtime.getDeploymentService().deploy(sshLogCompiled);
             portDeployment = runtime.getDeploymentService().deploy(portLogCompiled);
+            apache2Deployment = runtime.getDeploymentService().deploy(apache2Compiled);
         } catch (EPDeployException ex) {
             // handle exception here
             throw new RuntimeException(ex);
