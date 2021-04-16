@@ -6,13 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="be00d2ab-7b39-4f03-9be0-19f21f3136b3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/cep/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/cep/Engine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/cep/PEM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/cep/PEM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/cep/event/apache2Events/Apache2LogEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/cep/listener/apache2/Apache2BaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/cep/listener/apache2/Apache2BaseListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/controller/Apache2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/controller/Apache2Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/model/Apache2LogRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/siemt3/watchdog_server/model/Apache2LogRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/apache2Statement.epl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/apache2Statement.epl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/apache2Statement.epl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V1.0__init_db.sql" beforeDir="false" />
@@ -68,17 +62,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="WatchdogServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="watchdog_server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.siemt3.watchdog_server.WatchdogServerApplication" />
@@ -105,6 +88,7 @@
       <workItem from="1617229302347" duration="7716000" />
       <workItem from="1618006123930" duration="7000" />
       <workItem from="1618006148008" duration="1903000" />
+      <workItem from="1618607860230" duration="164000" />
     </task>
     <servers />
   </component>
