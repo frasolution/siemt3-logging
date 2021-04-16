@@ -45,31 +45,9 @@ import com.siemt3.watchdog_server.cep.listener.ssh.elevatedEvleventListener.SshU
 import java.io.File;
 import java.io.IOException;
 
-public class Engine implements Runnable {
-    private final String runtimeURI = PEM.getInstance().runtimeURI;
+public class Engine{
 
-    public Engine() {
-    }
-
-    public static void main() throws Exception {
-        Engine engien = new Engine();
-        try {
-            engien.run();
-        } catch (Throwable t) {
-            System.out.println(t);
-        }
-    }
-
-    public void run() {
-        try {
-            perform();
-        } catch (Throwable t) {
-            System.out.println(t);
-        }
-
-    }
-
-    private void perform() throws EPCompileException, EPDeployException {
+    public static void main() throws EPCompileException, EPDeployException {
         Configuration config = PEM.getInstance().config;
         EPRuntime runtime = PEM.getInstance().runtime;
 
@@ -162,7 +140,7 @@ public class Engine implements Runnable {
         // #############################
         // apache2 module, statements and listener
         EPCompiled apache2Compiled = null;
-        ClassLoader classLoader = getClass().getClassLoader();
+        ClassLoader classLoader = Engine.class.getClassLoader();
 
         try {
             File apache2File = new File(classLoader.getResource("apache2Statement.epl").getFile());
@@ -240,7 +218,7 @@ public class Engine implements Runnable {
 
     }
 
-    private void attacher(EPDeployment epDeployment, String statement, UpdateListener listener){
+    private static void attacher(EPDeployment epDeployment, String statement, UpdateListener listener){
         PEM.getInstance().runtime
                 .getDeploymentService()
                 .getStatement(epDeployment.getDeploymentId(), statement)
